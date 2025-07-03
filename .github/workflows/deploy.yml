@@ -105,7 +105,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           # 部署到生产分支，不指定 --branch 参数让其使用默认的生产分支
-          npx wrangler pages deploy docs/.vitepress/dist --project-name=$CLOUDFLARE_PROJECT_NAME --compatibility-date=2024-01-01
+          npx wrangler pages deploy docs/.vitepress/dist --project-name=$CLOUDFLARE_PROJECT_NAME
 
       - name: Display Success Information
         if: success()
