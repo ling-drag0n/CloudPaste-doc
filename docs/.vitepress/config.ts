@@ -132,10 +132,10 @@ export default defineConfig({
         socialLinks: [{ icon: "github", link: "https://github.com/ling-drag0n/CloudPaste" }],
         footer: {
           message: "基于 Apache License 2.0 许可发布",
-          copyright: "Copyright © 2024 CloudPaste",
+          copyright: "Copyright © 2025 CloudPaste",
         },
         editLink: {
-          pattern: "https://github.com/ling-drag0n/CloudPaste/edit/main/docs/:path",
+          pattern: "https://github.com/ling-drag0n/CloudPaste-doc/blob/master/docs/:path",
           text: "在 GitHub 上编辑此页",
         },
         lastUpdated: {
@@ -280,10 +280,10 @@ export default defineConfig({
         socialLinks: [{ icon: "github", link: "https://github.com/ling-drag0n/CloudPaste" }],
         footer: {
           message: "Released under the Apache License 2.0",
-          copyright: "Copyright © 2024 CloudPaste",
+          copyright: "Copyright © 2025 CloudPaste",
         },
         editLink: {
-          pattern: "https://github.com/ling-drag0n/CloudPaste/edit/main/docs/:path",
+          pattern: "https://github.com/ling-drag0n/CloudPaste-doc/blob/master/docs/:path",
           text: "Edit this page on GitHub",
         },
       },
@@ -302,6 +302,9 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
 
+  // 忽略死链接检查（开发环境的 localhost 链接）
+  ignoreDeadLinks: [/^http:\/\/localhost/, /^https:\/\/localhost/],
+
   // 头部配置
   head: [
     ["link", { rel: "icon", href: "/favicon.ico" }],
@@ -314,6 +317,6 @@ export default defineConfig({
     ["meta", { property: "og:title", content: "CloudPaste | 在线剪贴板和文件分享服务" }],
     ["meta", { property: "og:site_name", content: "CloudPaste" }],
     // ["meta", { property: "og:image", content: "/og-image.png" }], // 暂时注释掉，直到添加真实的 og 图片
-    ["meta", { property: "og:url", content: "https://cloudpaste-docs.example.com/" }],
+    ["meta", { property: "og:url", content: "https://github.com/ling-drag0n/CloudPaste/" }],
   ],
 });

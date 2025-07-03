@@ -65,7 +65,7 @@ ENCRYPTION_SECRET = "your-development-secret"
 
 Create `frontend/.env.development` file:
 
-```env
+```bash
 VITE_BACKEND_URL=http://localhost:8787
 VITE_APP_ENV=development
 VITE_ENABLE_DEVTOOLS=true

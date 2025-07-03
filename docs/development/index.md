@@ -65,7 +65,7 @@ ENCRYPTION_SECRET = "your-development-secret"
 
 创建 `frontend/.env.development` 文件：
 
-```env
+```bash
 VITE_BACKEND_URL=http://localhost:8787
 VITE_APP_ENV=development
 VITE_ENABLE_DEVTOOLS=true

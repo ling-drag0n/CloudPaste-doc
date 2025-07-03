@@ -114,7 +114,7 @@ wrangler deploy
 
 Edit `frontend/.env.production`:
 
-```env
+```bash
 VITE_BACKEND_URL=https://your-worker-url.workers.dev
 VITE_APP_ENV=production
 ```

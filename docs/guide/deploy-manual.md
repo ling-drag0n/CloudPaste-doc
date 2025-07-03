@@ -11,12 +11,14 @@
 ## 支持平台
 
 ### Cloudflare 平台
+
 - **Workers**: 后端 API 服务
 - **Pages**: 前端静态网站
 - **D1**: SQLite 数据库
 - **R2**: 对象存储（可选）
 
 ### 其他平台
+
 - **Vercel**: 前端部署
 - **Netlify**: 前端部署
 - **EdgeOne**: 前端部署
@@ -112,7 +114,7 @@ wrangler deploy
 
 编辑 `frontend/.env.production`：
 
-```env
+```bash
 VITE_BACKEND_URL=https://your-worker-url.workers.dev
 VITE_APP_ENV=production
 ```
@@ -141,11 +143,13 @@ wrangler pages deploy dist --project-name=cloudpaste-frontend
 ### 前端部署到 Vercel
 
 1. **连接 GitHub 仓库**
+
    - 登录 [Vercel](https://vercel.com)
    - 点击 "New Project"
    - 选择 CloudPaste 仓库
 
 2. **配置构建设置**
+
    ```
    Framework Preset（框架预设）: Vite
    Build Command（构建命令）: npm run build
@@ -154,6 +158,7 @@ wrangler pages deploy dist --project-name=cloudpaste-frontend
    ```
 
 3. **配置环境变量**
+
    ```
    VITE_BACKEND_URL=https://your-backend-url
    ```
@@ -166,8 +171,7 @@ wrangler pages deploy dist --project-name=cloudpaste-frontend
 
 后端仍然推荐部署到 Cloudflare Workers，按照上述 Cloudflare 部署步骤进行。
 
-
-## ClawCloud Docker部署
+## ClawCloud Docker 部署
 
 ### 每月 10G 免费流量，只适合轻度使用
 
@@ -195,7 +199,7 @@ wrangler pages deploy dist --project-name=cloudpaste-frontend
 然后是前端，如图所示（仅供参考）：
 ![image.png](https://s2.loli.net/2025/04/21/kaT5Qu8ctovFdUp.png)
 
-#### Step 5: 
+#### Step 5:
 
 部署完成即可使用，可根据需要自定义域名
 

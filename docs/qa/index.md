@@ -231,4 +231,3 @@ python3 -c "import hashlib; print(hashlib.sha256('your-password'.encode()).hexdi
 
 ---
 
-_最后更新：2024 年 12 月_
