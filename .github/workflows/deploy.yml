@@ -4,14 +4,9 @@ name: Deploy VitePress site to Cloudflare Pages
 on:
   # 在推送到 main 分支时触发
   push:
-    branches: [main]
+    branches: [main, master]
   # 允许手动触发工作流
   workflow_dispatch:
-
-# 设置权限
-permissions:
-  contents: read
-  deployments: write
 
 # 只允许一个并发部署，跳过正在运行和最新队列之间的运行队列
 # 但是，不要取消正在进行的运行，因为我们希望允许这些生产部署完成
@@ -27,16 +22,16 @@ jobs:
     env:
       CLOUDFLARE_PROJECT_NAME: ${{ secrets.CLOUDFLARE_PROJECT_NAME || 'cloudpaste-docs' }}
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 如果未启用 lastUpdated，则不需要
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -44,12 +39,82 @@ jobs:
       - name: Build with VitePress
         run: npm run docs:build
 
+      - name: Check if Pages project exists
+        id: check-project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "检查 Cloudflare Pages 项目是否存在..."
+          PROJECT_CHECK=$(curl -s -X GET "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" | jq -r '.result[] | select(.name=="'$CLOUDFLARE_PROJECT_NAME'") | .name')
+
+          if [ -n "$PROJECT_CHECK" ]; then
+            echo "✅ 找到现有Pages项目: $CLOUDFLARE_PROJECT_NAME"
+            echo "project_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ 未找到Pages项目: $CLOUDFLARE_PROJECT_NAME"
+            echo "project_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pages project if not exists
+        if: steps.check-project.outputs.project_exists == 'false'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "创建 Cloudflare Pages 项目: $CLOUDFLARE_PROJECT_NAME..."
+          cat << EOF > pages-config.json
+          {
+            "name": "$CLOUDFLARE_PROJECT_NAME",
+            "production_branch": "main"
+          }
+          EOF
+
+          CREATE_RESULT=$(curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data @pages-config.json)
+
+          SUCCESS=$(echo "$CREATE_RESULT" | jq -r '.success')
+          if [ "$SUCCESS" != "true" ]; then
+            echo "❌ 创建Pages项目失败，请手动创建项目后再次运行"
+            echo "错误信息: $(echo "$CREATE_RESULT" | jq -r '.errors')"
+            exit 1
+          else
+            echo "✅ 成功创建Pages项目: $CLOUDFLARE_PROJECT_NAME"
+          fi
+
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ env.CLOUDFLARE_PROJECT_NAME }}
-          directory: docs/.vitepress/dist
-          # 自动创建项目（如果不存在）
-          gitHubToken: ${{ secrets.GH_TOKEN }}
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx wrangler pages deploy docs/.vitepress/dist --project-name=$CLOUDFLARE_PROJECT_NAME --branch main
+
+      - name: Display Success Information
+        if: success()
+        run: |
+          echo "===================================================="
+          echo "🎉 CloudPaste 文档已成功部署到 Cloudflare Pages!"
+          echo "===================================================="
+          echo ""
+          echo "项目名称: $CLOUDFLARE_PROJECT_NAME"
+          echo "分支: main"
+          echo ""
+          echo "您可以在 Cloudflare Pages 控制面板中查看部署状态:"
+          echo "- 登录 https://dash.cloudflare.com/"
+          echo "- 进入 Pages > $CLOUDFLARE_PROJECT_NAME"
+          echo "===================================================="
+
+      - name: Display Troubleshooting Info
+        if: failure()
+        run: |
+          echo "===================================================="
+          echo "❌ 部署失败，可能的解决方案:"
+          echo "1. 确保Cloudflare账户存在Pages项目"
+          echo "2. 验证API Token权限 (Pages:Edit, Account:Read)"
+          echo "3. 检查GitHub Secrets (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID)"
+          echo "4. 确保项目名称符合Cloudflare Pages命名规范"
+          echo "===================================================="
