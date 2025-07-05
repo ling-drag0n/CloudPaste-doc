@@ -282,3 +282,96 @@
 .VPNavBarSearch .DocSearch-Button:hover {
   box-shadow: 0 4px 12px rgba(100, 108, 255, 0.15);
 }
+
+/* 快速导航优化 */
+.VPDocOutline {
+  /* 增强大纲导航的可见性 */
+  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.VPDocOutline .title {
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  margin-bottom: 12px;
+}
+
+.VPDocOutline .outline-link {
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin: 2px 0;
+  display: block;
+}
+
+.VPDocOutline .outline-link:hover {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.VPDocOutline .outline-link.active {
+  background: var(--vp-c-brand-1);
+  color: var(--vp-c-white);
+  font-weight: 500;
+}
+
+/* 回到顶部按钮优化 */
+.VPBackToTop {
+  background: var(--vp-c-brand-1) !important;
+  border-radius: 50% !important;
+  width: 48px !important;
+  height: 48px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.3s ease !important;
+}
+
+.VPBackToTop:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 页面内快速跳转优化 */
+.vp-doc h2,
+.vp-doc h3 {
+  scroll-margin-top: 80px; /* 为固定导航栏留出空间 */
+}
+
+.vp-doc h2:hover .header-anchor,
+.vp-doc h3:hover .header-anchor {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.vp-doc .header-anchor {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.2s ease;
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+}
+
+/* 响应式设计优化 */
+@media (max-width: 768px) {
+  .vp-doc .custom-block {
+    margin: 16px -24px;
+    border-radius: 0;
+  }
+
+  .vp-doc table {
+    font-size: 14px;
+  }
+
+  .VPDocOutline {
+    margin: 16px -24px;
+    border-radius: 0;
+  }
+
+  .VPBackToTop {
+    width: 44px !important;
+    height: 44px !important;
+    bottom: 20px !important;
+    right: 20px !important;
+  }
+}

@@ -147,6 +147,7 @@ export default defineConfig({
         },
         outline: {
           label: "页面导航",
+          level: [2, 3], // 显示 h2 和 h3 标题
         },
         returnToTopLabel: "回到顶部",
         sidebarMenuLabel: "菜单",
@@ -286,13 +287,17 @@ export default defineConfig({
           pattern: "https://github.com/ling-drag0n/CloudPaste-doc/blob/master/docs/:path",
           text: "Edit this page on GitHub",
         },
+        outline: {
+          label: "On this page",
+          level: [2, 3], // 显示 h2 和 h3 标题
+        },
       },
     },
   },
 
   // 主题配置
   themeConfig: {
-    // logo: "/logo.png", // 暂时注释掉，直到添加真实的 logo 文件
+    logo: "/logo.png",
     search: {
       provider: "local",
     },
@@ -301,6 +306,11 @@ export default defineConfig({
   // 其他配置
   cleanUrls: true,
   lastUpdated: true,
+
+  // SEO 优化
+  sitemap: {
+    hostname: "https://doc.cloudpaste.qzz.io",
+  },
 
   // 忽略死链接检查（开发环境的 localhost 链接）
   ignoreDeadLinks: [/^http:\/\/localhost/, /^https:\/\/localhost/],
@@ -314,11 +324,18 @@ export default defineConfig({
     ["link", { rel: "icon", type: "image/png", sizes: "192x192", href: "/android-chrome-192x192.png" }],
     ["link", { rel: "icon", type: "image/png", sizes: "512x512", href: "/android-chrome-512x512.png" }],
     ["meta", { name: "theme-color", content: "#646cff" }],
+    ["meta", { name: "keywords", content: "CloudPaste,剪贴板,文件分享,Cloudflare,Markdown,WebDAV,开源" }],
+    ["meta", { name: "author", content: "CloudPaste Team" }],
     ["meta", { property: "og:type", content: "website" }],
     ["meta", { property: "og:locale", content: "zh-CN" }],
     ["meta", { property: "og:title", content: "CloudPaste | 在线剪贴板和文件分享服务" }],
+    ["meta", { property: "og:description", content: "基于 Cloudflare 的现代化文件分享解决方案，支持 Markdown 编辑和多种存储服务" }],
     ["meta", { property: "og:site_name", content: "CloudPaste" }],
-    // ["meta", { property: "og:image", content: "/og-image.png" }], // 暂时注释掉，直到添加真实的 og 图片
-    ["meta", { property: "og:url", content: "https://github.com/ling-drag0n/CloudPaste/" }],
+    ["meta", { property: "og:image", content: "/logo.png" }],
+    ["meta", { property: "og:url", content: "https://doc.cloudpaste.qzz.io/" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    ["meta", { name: "twitter:title", content: "CloudPaste | 在线剪贴板和文件分享服务" }],
+    ["meta", { name: "twitter:description", content: "基于 Cloudflare 的现代化文件分享解决方案，支持 Markdown 编辑和多种存储服务" }],
+    ["meta", { name: "twitter:image", content: "/logo.png" }],
   ],
 });

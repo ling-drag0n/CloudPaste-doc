@@ -17,7 +17,7 @@ hero:
       link: /en/guide/quick-start
     - theme: alt
       text: View Demo
-      link: https://github.com/ling-drag0n/CloudPaste
+      link: https://copy.730888.xyz/paste/demo3
     - theme: alt
       text: GitHub
       link: https://github.com/ling-drag0n/CloudPaste
