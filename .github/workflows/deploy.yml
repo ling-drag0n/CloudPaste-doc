@@ -81,7 +81,12 @@ jobs:
           cat << EOF > pages-config.json
           {
             "name": "$CLOUDFLARE_PROJECT_NAME",
-            "production_branch": "main"
+            "production_branch": "main",
+            "build_config": {
+              "build_command": "",
+              "destination_dir": "",
+              "root_dir": ""
+            }
           }
           EOF
 
@@ -104,8 +109,9 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          # 部署到生产分支，不指定 --branch 参数让其使用默认的生产分支
-          npx wrangler pages deploy docs/.vitepress/dist --project-name=$CLOUDFLARE_PROJECT_NAME
+          # 使用 --production 标志确保部署到生产环境
+          echo "🚀 部署到生产环境..."
+          npx wrangler pages deploy docs/.vitepress/dist --project-name=$CLOUDFLARE_PROJECT_NAME --production
 
       - name: Display Success Information
         if: success()
