@@ -78,30 +78,14 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "创建 Cloudflare Pages 项目: $CLOUDFLARE_PROJECT_NAME..."
-          cat << EOF > pages-config.json
-          {
-            "name": "$CLOUDFLARE_PROJECT_NAME",
-            "production_branch": "main",
-            "build_config": {
-              "build_command": "",
-              "destination_dir": "",
-              "root_dir": ""
-            }
-          }
-          EOF
+          # 使用 wrangler 创建项目，指定生产分支为 main
+          npx wrangler pages project create $CLOUDFLARE_PROJECT_NAME --production-branch=main
 
-          CREATE_RESULT=$(curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects" \
-            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            -H "Content-Type: application/json" \
-            --data @pages-config.json)
-
-          SUCCESS=$(echo "$CREATE_RESULT" | jq -r '.success')
-          if [ "$SUCCESS" != "true" ]; then
-            echo "❌ 创建Pages项目失败，请手动创建项目后再次运行"
-            echo "错误信息: $(echo "$CREATE_RESULT" | jq -r '.errors')"
-            exit 1
-          else
+          if [ $? -eq 0 ]; then
             echo "✅ 成功创建Pages项目: $CLOUDFLARE_PROJECT_NAME"
+          else
+            echo "❌ 创建Pages项目失败，请检查项目名称或手动创建项目"
+            exit 1
           fi
 
       - name: Deploy to Cloudflare Pages
@@ -109,9 +93,9 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          # 使用 --production 标志确保部署到生产环境
-          echo "🚀 部署到生产环境..."
-          npx wrangler pages deploy docs/.vitepress/dist --project-name=$CLOUDFLARE_PROJECT_NAME --production
+          # 部署到生产分支 main，确保部署到生产环境
+          echo "🚀 部署到生产环境 (main 分支)..."
+          npx wrangler pages deploy docs/.vitepress/dist --project-name=$CLOUDFLARE_PROJECT_NAME --branch=main
 
       - name: Display Success Information
         if: success()
