@@ -39,6 +39,14 @@ Docker deployment is suitable for users with servers, providing complete contain
    docker-compose up -d
    ```
 
+::: warning Important Reminder: File Upload Configuration
+After deployment is complete, if you need to use file upload functionality, please configure S3 storage service and CORS settings first.
+
+**👉 [Configure S3 Storage Now](/en/guide/s3-config)**
+
+Docker deployment supports local file storage, but if you want to use cloud storage (such as Cloudflare R2, AWS S3, etc.), you need to configure CORS rules additionally.
+:::
+
 ### Method 2: Separate Frontend and Backend Deployment
 
 #### Deploy Backend

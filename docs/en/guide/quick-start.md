@@ -4,6 +4,14 @@ This guide will help you quickly deploy and use CloudPaste.
 
 ## Prerequisites
 
+::: tip Choose Deployment Method
+Choose the appropriate deployment method based on your needs:
+
+- **[GitHub Actions Deploy](/en/guide/deploy-github-actions)** - Recommended, completely free and automated
+- **[Docker Deploy](/en/guide/deploy-docker)** - Suitable for users with servers, supports local storage
+- **[More Deploy Methods](/en/guide/deploy-manual)** - Includes manual deployment methods for Cloudflare, Vercel and other platforms
+  :::
+
 Before starting deployment, please ensure you have prepared the following:
 
 - [x] [Cloudflare](https://dash.cloudflare.com) account / VPS (docker)

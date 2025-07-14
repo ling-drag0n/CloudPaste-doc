@@ -114,6 +114,18 @@ Visit your frontend URL, you should see the CloudPaste interface.
 2. Create test text
 3. Upload test file
 
+::: warning Important Reminder: File Upload Configuration
+If you need to use file upload functionality, please configure S3 storage service and CORS settings first, otherwise file uploads will fail.
+
+**👉 [Configure S3 Storage Now](/en/guide/s3-config)**
+
+Important notes:
+
+- Cloudflare R2 requires CORS cross-origin rules configuration
+- Other S3 services also need corresponding CORS configuration
+- Files can only be uploaded normally after configuration is complete
+  :::
+
 ## Common Issues
 
 ### Deployment Failure

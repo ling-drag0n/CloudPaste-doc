@@ -82,7 +82,7 @@ GitHub Actions 是最推荐的部署方式，可以实现代码推送后自动�
    - **名称**: `VITE_BACKEND_URL`
    - **值**: 您的后端 Worker URL（如 `https://cloudpaste-backend.your-username.workers.dev`）
 
- ![page1](/images/guide/test-1.png) 
+![page1](/images/guide/test-1.png)
 
 ::: warning 重要提示
 环境变量值必须是完整的 URL，包含 `https://` 前缀，末尾不要添加 `/`
@@ -91,7 +91,6 @@ GitHub Actions 是最推荐的部署方式，可以实现代码推送后自动�
 ### 6. 重新部署前端
 
 配置环境变量后，需要重新运行前端工作流以使配置生效。
-
 
 ## 验证部署
 
@@ -114,6 +113,18 @@ curl https://your-backend-url.workers.dev/api/health
    - 密码: `admin123`
 2. 创建测试文本
 3. 上传测试文件
+
+::: warning 重要提醒：文件上传功能配置
+如果您需要使用文件上传功能，请务必先配置 S3 存储服务和跨域设置，否则文件上传会失败。
+
+**👉 [立即配置 S3 存储](/guide/s3-config)**
+
+特别注意：
+
+- Cloudflare R2 需要配置 CORS 跨域规则
+- 其他 S3 服务也需要相应的跨域配置
+- 配置完成后才能正常上传文件
+  :::
 
 ## 常见问题
 

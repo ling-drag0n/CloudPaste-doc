@@ -138,6 +138,14 @@ wrangler pages project create cloudpaste-frontend
 wrangler pages deploy dist --project-name=cloudpaste-frontend
 ```
 
+::: warning Important Reminder: File Upload Configuration
+After Cloudflare deployment is complete, if you need to use file upload functionality, please configure S3 storage service and CORS settings first.
+
+**👉 [Configure S3 Storage Now](/en/guide/s3-config)**
+
+Pay special attention to Cloudflare R2 CORS configuration, this is the step users most easily overlook!
+:::
+
 ## Vercel Deployment
 
 ### Frontend Deployment to Vercel
@@ -166,6 +174,12 @@ wrangler pages deploy dist --project-name=cloudpaste-frontend
 4. **Deploy**
    - Click "Deploy" to start deployment
    - Wait for build completion
+
+::: warning Important Reminder: File Upload Configuration
+After Vercel frontend deployment is complete, if you need to use file upload functionality, please configure S3 storage service and CORS settings first.
+
+**👉 [Configure S3 Storage Now](/en/guide/s3-config)**
+:::
 
 ### Backend Deployment to Cloudflare Workers
 

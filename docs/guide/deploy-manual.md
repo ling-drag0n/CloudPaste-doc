@@ -138,6 +138,14 @@ wrangler pages project create cloudpaste-frontend
 wrangler pages deploy dist --project-name=cloudpaste-frontend
 ```
 
+::: warning 重要提醒：文件上传功能配置
+Cloudflare 部署完成后，如果您需要使用文件上传功能，请务必先配置 S3 存储服务和跨域设置。
+
+**👉 [立即配置 S3 存储](/guide/s3-config)**
+
+特别注意 Cloudflare R2 的跨域配置，这是用户最容易忽略的步骤！
+:::
+
 ## Vercel 前端部署
 
 ### 前端部署到 Vercel
@@ -166,6 +174,12 @@ wrangler pages deploy dist --project-name=cloudpaste-frontend
 4. **部署**
    - 点击 "Deploy" 开始部署
    - 等待构建完成
+
+::: warning 重要提醒：文件上传功能配置
+Vercel 前端部署完成后，如果您需要使用文件上传功能，请务必先配置 S3 存储服务和跨域设置。
+
+**👉 [立即配置 S3 存储](/guide/s3-config)**
+:::
 
 ### 后端部署到 Cloudflare Workers
 

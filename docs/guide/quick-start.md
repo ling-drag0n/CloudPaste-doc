@@ -4,6 +4,14 @@
 
 ## 前期准备
 
+::: tip 选择部署方式
+根据您的需求选择合适的部署方式：
+
+- **[GitHub Actions 部署](/guide/deploy-github-actions)** - 推荐方式，完全免费且自动化
+- **[Docker 部署](/guide/deploy-docker)** - 适合有服务器的用户，支持本地存储
+- **[更多部署方式](/guide/deploy-manual)** - 包含 Cloudflare、Vercel 等多种平台的手动部署方法
+  :::
+
 在开始部署前，请确保您已准备以下内容：
 
 - [x] [Cloudflare](https://dash.cloudflare.com) 账号 / VPS (docker)
