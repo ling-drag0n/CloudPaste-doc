@@ -77,9 +77,9 @@ CloudPaste 支持多种 S3 兼容的对象存储服务，为您的文件提供�
    ![B2账号注册](/images/guide/B2/B2-1.png)
 2. 点击侧边栏的 Application Key，点击 Create Key，然后如图所示。
    ![B2key](/images/guide/B2/B2-2.png)
-3. 配置 B2 的跨域，B2 跨域配置比较麻烦，需注意
-   ![B2cors](/images/guide/B2/B2-3.png)
-4. 可以先尝试一下 1 或 2，去到上传页面看看是否能上传，F12 打开控制台若显示跨域错误，则使用 3。要一劳永逸就直接使用 3（现在建议直接使用3）。
+3. 配置 B2 的跨域，B2 跨域配置比较麻烦，需注意,  而端点URL在下图的Endpoint位置右边
+4. ![B2cors](/images/guide/B2/B2-3.png)
+5. 可以先尝试一下 1 或 2，去到上传页面看看是否能上传，F12 打开控制台若显示跨域错误，则使用 3。要一劳永逸就直接使用 3（现在建议直接使用3）。
 
    ![B21](/images/guide/B2/B2-4.png)
 
@@ -1675,6 +1675,98 @@ export default {
 
 ```
 </details>
+
+
+
+## TeBi Cloud配置
+
+#### 1.若没有 TeBi Cloud 账号，可以先[注册](https://client.tebi.io/)一个(注意：需要绑卡验证，但不扣费)，然后创建一个存储桶(免费额度25GB/月,流量25GB/月)。
+
+![](/images/guide/TeBi/Tebi-1.png)
+
+#### 2.点击侧边栏的 Keys，点击 ADD KEY，如图所示。
+
+![](/images/guide/TeBi/Tebi-2.png)
+
+#### 3.端点URL:https://s3.tebi.io (应该是通用的)
+
+#### 4.配置跨域,先点击存储桶右边进入EDIT找到CORS,然后Enable打上√
+
+#### 5.跨域规则下面代码参考，最后记得划到下面点击UPDATE
+
+```html
+<?xml version='1.0' encoding='UTF-8'?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+    <CORSRule>
+        <AllowedOrigin>*</AllowedOrigin>
+        <AllowedMethod>GET</AllowedMethod>
+        <AllowedMethod>PUT</AllowedMethod>
+        <AllowedMethod>POST</AllowedMethod>
+        <AllowedMethod>DELETE</AllowedMethod>
+        <AllowedMethod>HEAD</AllowedMethod>
+        <AllowedHeader>*</AllowedHeader>
+        <ExposeHeader>ETag</ExposeHeader>
+        <MaxAgeSeconds>3600</MaxAgeSeconds>
+    </CORSRule>
+</CORSConfiguration>
+
+```
+
+
+
+## 七牛云 Kodo配置
+
+#### 1.若没有七牛云账号，可以先[注册]([七牛云 | 简单 可信赖](https://sso.qiniu.com/))一个(注意：需要实名验证，极为严格)，然后在[七牛云 - 对象存储 - 概览](https://portal.qiniu.com/kodo/overview)创建一个存储桶,存储区域好像没有特别的要求，可以选择海外搭配海外加速域名。
+
+![](/images/guide/Kodo/Kodo-1.png)
+
+#### 2.密钥的话在这里[七牛云 - 密钥管理](https://portal.qiniu.com/developer/user/key)(上面是ID，下面是密钥)
+
+#### 3.端点URL在这里实时更新[服务域名_使用指南_对象存储 - 七牛开发者中心](https://developer.qiniu.com/kodo/4088/s3-access-domainname),或者参考下面
+
+| 存储区域                | 区域简称 Region ID | 访问 Endpoint                 | 协议        |
+| :---------------------- | :----------------- | :---------------------------- | :---------- |
+| 华东-浙江               | cn-east-1          | s3.cn-east-1.qiniucs.com      | HTTP，HTTPS |
+| 华东-浙江2              | cn-east-2          | s3.cn-east-2.qiniucs.com      | HTTP，HTTPS |
+| 华北-河北               | cn-north-1         | s3.cn-north-1.qiniucs.com     | HTTP，HTTPS |
+| 华南-广东               | cn-south-1         | s3.cn-south-1.qiniucs.com     | HTTP，HTTPS |
+| 西北-陕西1              | cn-northwest-1     | s3.cn-northwest-1.qiniucs.com | HTTP，HTTPS |
+| 北美-洛杉矶             | us-north-1         | s3.us-north-1.qiniucs.com     | HTTP，HTTPS |
+| 亚太-新加坡（原东南亚） | ap-southeast-1     | s3.ap-southeast-1.qiniucs.com | HTTP，HTTPS |
+| 亚太-河内               | ap-southeast-2     | s3.ap-southeast-2.qiniucs.com | HTTP，HTTPS |
+| 亚太-胡志明             | ap-southeast-3     | s3.ap-southeast-3.qiniucs.com | HTTP，HTTPS |
+
+#### 4.配置跨域的话先点击存储桶进入找到空间设置,然后往下滑，找到跨域设置，然后点击新增规则
+
+![](/images/guide/Kodo/Kodo-2.png)
+
+#### 5.跨域规则配置参考，最后点击确定
+
+![](/images/guide/Kodo/Kodo-3.png)
+
+
+
+## 缤纷云bitiful配置
+
+### （提醒：这家页面确实挺缤纷，但是送50GB，并且实名验证好像不怎么严格，有可能跑路，建议不要存储珍贵资料）
+
+#### 1.若没有缤纷云账号，可以先[注册](https://console.bitiful.com/login)一个(注意：需要实名验证，应该随便一张身份证都能过)，然后在[缤纷云控制台 | Bitiful](https://console.bitiful.com/buckets)创建一个存储桶
+
+#### 2.密钥的话在这里[缤纷云控制台 | Bitiful](https://console.bitiful.com/accessKey)，先点击上面的添加用户，然后点击下面添加Key，Access Key是密钥ID，Secret Key是密钥
+
+![](/images/guide/Bitiful/Bitiful-1.png)
+
+#### 3.端点URL：https://s3.bitiful.net (应该是通用的)，在这里看`https://console.bitiful.com/buckets/你的存储桶的名称/baseinfo`
+
+#### 4.配置跨域,先点击存储桶进入访问管理，下面跨域配置，新建规则
+
+#### `https://console.bitiful.com/buckets/你的存储桶的名称/ad`
+
+#### 5.跨域规则配置参考，最后点击保存
+
+![](/images/guide/Bitiful/Bitiful-2.png)
+
+
 
 ## MinIO 自建配置
 
