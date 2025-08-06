@@ -19,116 +19,42 @@ export default defineConfig({
           { text: "API 文档", link: "/api/" },
           { text: "开发指南", link: "/development/" },
         ],
-        sidebar: {
-          "/guide/": [
-            {
-              text: "指南",
-              items: [
-                { text: "介绍", link: "/guide/introduction" },
-                { text: "快速开始", link: "/guide/quick-start" },
-                { text: "功能特点", link: "/guide/features" },
-              ],
-            },
-            {
-              text: "部署指南",
-              items: [
-                { text: "GitHub Actions 部署 (推荐)", link: "/guide/deploy-github-actions" },
-                { text: "Docker 部署", link: "/guide/deploy-docker" },
-                { text: "更多部署方式", link: "/guide/deploy-manual" },
-              ],
-            },
-            {
-              text: "配置指南",
-              items: [
-                { text: "S3 存储配置", link: "/guide/s3-config" },
-                { text: "WebDAV 配置", link: "/guide/webdav" },
-              ],
-            },
-            {
-              text: "帮助与支持",
-              items: [
-                { text: "常见问题", link: "/qa/" },
-                { text: "关于", link: "/about/" },
-              ],
-            },
-          ],
-          "/api/": [
-            {
-              text: "API 文档",
-              items: [{ text: "API 概述", link: "/api/" }],
-            },
-          ],
-          "/development/": [
-            {
-              text: "开发指南",
-              items: [{ text: "开发环境", link: "/development/" }],
-            },
-          ],
-          "/qa/": [
-            {
-              text: "使用指南",
-              items: [
-                { text: "介绍", link: "/guide/introduction" },
-                { text: "快速开始", link: "/guide/quick-start" },
-                { text: "功能特点", link: "/guide/features" },
-              ],
-            },
-            {
-              text: "部署指南",
-              items: [
-                { text: "GitHub Actions 部署 (推荐)", link: "/guide/deploy-github-actions" },
-                { text: "Docker 部署", link: "/guide/deploy-docker" },
-                { text: "更多部署方式", link: "/guide/deploy-manual" },
-              ],
-            },
-            {
-              text: "配置指南",
-              items: [
-                { text: "S3 存储配置", link: "/guide/s3-config" },
-                { text: "WebDAV 配置", link: "/guide/webdav" },
-              ],
-            },
-            {
-              text: "帮助与支持",
-              items: [
-                { text: "常见问题", link: "/qa/" },
-                { text: "关于", link: "/about/" },
-              ],
-            },
-          ],
-          "/about/": [
-            {
-              text: "使用指南",
-              items: [
-                { text: "介绍", link: "/guide/introduction" },
-                { text: "快速开始", link: "/guide/quick-start" },
-                { text: "功能特点", link: "/guide/features" },
-              ],
-            },
-            {
-              text: "部署指南",
-              items: [
-                { text: "GitHub Actions 部署 (推荐)", link: "/guide/deploy-github-actions" },
-                { text: "Docker 部署", link: "/guide/deploy-docker" },
-                { text: "更多部署方式", link: "/guide/deploy-manual" },
-              ],
-            },
-            {
-              text: "配置指南",
-              items: [
-                { text: "S3 存储配置", link: "/guide/s3-config" },
-                { text: "WebDAV 配置", link: "/guide/webdav" },
-              ],
-            },
-            {
-              text: "帮助与支持",
-              items: [
-                { text: "常见问题", link: "/qa/" },
-                { text: "关于", link: "/about/" },
-              ],
-            },
-          ],
-        },
+        sidebar: [
+          {
+            text: "指南",
+            items: [
+              { text: "介绍", link: "/guide/introduction" },
+              { text: "快速开始", link: "/guide/quick-start" },
+              { text: "功能特点", link: "/guide/features" },
+            ],
+          },
+          {
+            text: "部署指南",
+            items: [
+              { text: "GitHub Actions 部署 (推荐)", link: "/guide/deploy-github-actions" },
+              { text: "Docker 部署", link: "/guide/deploy-docker" },
+              { text: "更多部署方式", link: "/guide/deploy-manual" },
+            ],
+          },
+          {
+            text: "配置指南",
+            items: [
+              { text: "S3 存储配置", link: "/guide/s3-config" },
+              { text: "WebDAV 配置", link: "/guide/webdav" },
+            ],
+          },
+          {
+            text: "使用指南",
+            items: [{ text: "系统设置", link: "/guide/system-settings" }],
+          },
+          {
+            text: "帮助与支持",
+            items: [
+              { text: "常见问题", link: "/qa/" },
+              { text: "关于", link: "/about/" },
+            ],
+          },
+        ],
         socialLinks: [{ icon: "github", link: "https://github.com/ling-drag0n/CloudPaste" }],
         footer: {
           message: "基于 Apache License 2.0 许可发布",
@@ -168,116 +94,43 @@ export default defineConfig({
           { text: "API", link: "/en/api/" },
           { text: "Development", link: "/en/development/" },
         ],
-        sidebar: {
-          "/en/guide/": [
-            {
-              text: "Guide",
-              items: [
-                { text: "Introduction", link: "/en/guide/introduction" },
-                { text: "Quick Start", link: "/en/guide/quick-start" },
-                { text: "Features", link: "/en/guide/features" },
-              ],
-            },
-            {
-              text: "Deployment Guide",
-              items: [
-                { text: "GitHub Actions (Recommended)", link: "/en/guide/deploy-github-actions" },
-                { text: "Docker Deployment", link: "/en/guide/deploy-docker" },
-                { text: "More Deployment Options", link: "/en/guide/deploy-manual" },
-              ],
-            },
-            {
-              text: "Configuration Guide",
-              items: [
-                { text: "S3 Storage Configuration", link: "/en/guide/s3-config" },
-                { text: "WebDAV Configuration", link: "/en/guide/webdav" },
-              ],
-            },
-            {
-              text: "Help & Support",
-              items: [
-                { text: "FAQ", link: "/en/qa/" },
-                { text: "About", link: "/en/about/" },
-              ],
-            },
-          ],
-          "/en/api/": [
-            {
-              text: "API Documentation",
-              items: [{ text: "API Overview", link: "/en/api/" }],
-            },
-          ],
-          "/en/development/": [
-            {
-              text: "Development Guide",
-              items: [{ text: "Development Environment", link: "/en/development/" }],
-            },
-          ],
-          "/en/qa/": [
-            {
-              text: "User Guide",
-              items: [
-                { text: "Introduction", link: "/en/guide/introduction" },
-                { text: "Quick Start", link: "/en/guide/quick-start" },
-                { text: "Features", link: "/en/guide/features" },
-              ],
-            },
-            {
-              text: "Deployment Guide",
-              items: [
-                { text: "GitHub Actions Deployment", link: "/en/guide/deploy-github-actions" },
-                { text: "Docker Deployment", link: "/en/guide/deploy-docker" },
-                { text: "Manual Deployment", link: "/en/guide/deploy-manual" },
-              ],
-            },
-            {
-              text: "Configuration Guide",
-              items: [
-                { text: "S3 Storage Configuration", link: "/en/guide/s3-config" },
-                { text: "WebDAV Configuration", link: "/en/guide/webdav" },
-              ],
-            },
-            {
-              text: "Help & Support",
-              items: [
-                { text: "FAQ", link: "/en/qa/" },
-                { text: "About", link: "/en/about/" },
-              ],
-            },
-          ],
-          "/en/about/": [
-            {
-              text: "User Guide",
-              items: [
-                { text: "Introduction", link: "/en/guide/introduction" },
-                { text: "Quick Start", link: "/en/guide/quick-start" },
-                { text: "Features", link: "/en/guide/features" },
-              ],
-            },
-            {
-              text: "Deployment Guide",
-              items: [
-                { text: "GitHub Actions Deployment", link: "/en/guide/deploy-github-actions" },
-                { text: "Docker Deployment", link: "/en/guide/deploy-docker" },
-                { text: "Manual Deployment", link: "/en/guide/deploy-manual" },
-              ],
-            },
-            {
-              text: "Configuration Guide",
-              items: [
-                { text: "S3 Storage Configuration", link: "/en/guide/s3-config" },
-                { text: "WebDAV Configuration", link: "/en/guide/webdav" },
-              ],
-            },
-            {
-              text: "Help & Support",
-              items: [
-                { text: "FAQ", link: "/en/qa/" },
-                { text: "About", link: "/en/about/" },
-              ],
-            },
-          ],
-        },
+        sidebar: [
+          {
+            text: "Guide",
+            items: [
+              { text: "Introduction", link: "/en/guide/introduction" },
+              { text: "Quick Start", link: "/en/guide/quick-start" },
+              { text: "Features", link: "/en/guide/features" },
+            ],
+          },
+          {
+            text: "Deployment Guide",
+            items: [
+              { text: "GitHub Actions (Recommended)", link: "/en/guide/deploy-github-actions" },
+              { text: "Docker Deployment", link: "/en/guide/deploy-docker" },
+              { text: "More Deployment Options", link: "/en/guide/deploy-manual" },
+            ],
+          },
+          {
+            text: "Configuration Guide",
+            items: [
+              { text: "S3 Storage Configuration", link: "/en/guide/s3-config" },
+              { text: "WebDAV Configuration", link: "/en/guide/webdav" },
+            ],
+          },
+          {
+            text: "User Guide",
+            items: [{ text: "System Settings", link: "/en/guide/system-settings" }],
+          },
+          {
+            text: "Help & Support",
+            items: [
+              { text: "FAQ", link: "/en/qa/" },
+              { text: "About", link: "/en/about/" },
+            ],
+          },
+        ],
+
         socialLinks: [{ icon: "github", link: "https://github.com/ling-drag0n/CloudPaste" }],
         footer: {
           message: "Released under the Apache License 2.0",

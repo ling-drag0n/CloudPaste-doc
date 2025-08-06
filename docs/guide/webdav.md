@@ -64,9 +64,7 @@ https://your-domain.com/dav
 
 3. **⚠️⚠️ Webdav 上传问题**:
 
-   - 预签名上传模式下，需要注意配置对应的 S3 存储的跨域配置
-   - WebDav 的自动推荐模式下，小于 10MB 文件采用直传模式，10-50MB 文件采用分片上传模式，大于 50MB 文件采用预签名上传模式。
-   - 关于 Cloudflare 的 Worker 上传限制（100MB左右），建议使用预签名或直传模式，不要使用分片
+   - 走worker传输，关于 Cloudflare 的 Worker 上传限制（100MB左右），建议使用直传模式，不要使用分片
    - 对于 Docker 部署，只需注意 nginx 代理配置，上传模式任意。
    - Windows，Raidrive 等客户端挂载暂不支持拖动上传
 

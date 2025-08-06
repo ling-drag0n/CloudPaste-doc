@@ -163,6 +163,18 @@ python3 -c "import hashlib; print(hashlib.sha256('your-password'.encode()).hexdi
 
 ## 📱 Usage Related
 
+### Q: Can't find any resources after the update
+
+**A:** Clear the cache for the corresponding domain in CF and clear the browser cache, then force a refresh.
+
+### Q: The API key path cannot be selected/only the root directory is available when creating a new key mount path. What should I do?
+
+**A:** Please check if the S3 storage service is correctly configured and **verify whether the corresponding bucket has "Allow API Key" enabled**.
+
+1. Mount points have been configured for the required bucket or subdirectory, and the "Allow API Key" option is enabled.
+2. There are actual subfolders or files in the S3 bucket or mounted directory (S3 only displays folders if there are prefix objects or "directory markers").
+3. Refresh the page when creating a new API key, and you should see the selectable subdirectories.
+
 ### Q: What to do if Markdown editor functions abnormally?
 
 **A:** Try the following solutions:

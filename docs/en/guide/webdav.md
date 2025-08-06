@@ -65,9 +65,7 @@ It is recommended to create dedicated API keys for WebDAV access and set appropr
 
 3. **⚠️⚠️ WebDAV Upload Issues**:
 
-   - In pre-signed upload mode, need to pay attention to configuring corresponding S3 storage CORS configuration
-   - In WebDAV automatic recommendation mode, files smaller than 10MB use direct upload mode, 10-50MB files use multipart upload mode, files larger than 50MB use pre-signed upload mode.
-   - Regarding Cloudflare Worker upload limits (around 100MB), it is recommended to use pre-signed or direct upload mode, do not use multipart
+   - For worker transfers, regarding Cloudflare Worker's upload limit (around 100MB), it is recommended to use direct upload mode and avoid using chunking.
    - For Docker deployment, only need to pay attention to nginx proxy configuration, upload mode is arbitrary.
    - Windows, RaiDrive and other client mounts do not currently support drag upload
 
