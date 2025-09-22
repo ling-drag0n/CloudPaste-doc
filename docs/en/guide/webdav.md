@@ -40,34 +40,38 @@ Use CloudPaste administrator account:
 
 ### 2. API Key Authentication
 
-Use dedicated API key, need to enable file and mount permissions:
+To use a dedicated API key, enable mount page permissions and WEBDAV permissions:
 
-- **Username**: API key value
-- **Password**: API key value (same as user password)
+- **Username**: The value of the API key  
+- **Password**: The value of the API key (same as the username)  
 
-::: tip Recommendation
-It is recommended to create dedicated API keys for WebDAV access and set appropriate permission scopes.
-:::
+::: tip Recommendation  
+It is recommended to create a dedicated API key for WebDAV access and set appropriate permission scopes.  
+:::  
 
-## Common Problem Solutions:
+## Usage  
 
-1. **Connection Issues**:
+1. Before use, ensure that the S3 storage bucket is configured. If it is to be used by API key users, the "Allow API Key Users" permission for the corresponding bucket must be enabled.  
+2. After configuring the S3 storage, add the corresponding driver in the mount management for mounting. The path here can be filled in any format as an identifier for the mount path and is unrelated to the driver content.  
+3. After successful mounting, files can be accessed and managed in the WebDAV client using the format `https://your-domain.com/dav/mount-path/`. Here, the "mount-path/" corresponds to the root directory path under your S3 bucket. To specify a subfolder, use the corresponding folder path: `https://your-domain.com/dav/mount-path/subfolder-path-under-S3-root/`.  
+4. For API key users, ensure that the mount permission and the "Allow API Key Users" permission for the bucket are enabled. After enabling the relevant mount page permission and WebDAV permission in the interface, the corresponding key base path mount path can be set (similarly mapped to the WebDAV path).
 
-   - If 405 error occurs, confirm WebDAV URL format is correct (use backend domain as address)
-   - Verify authentication credentials are valid
-   - Check if API key has mount permissions
+## Common Issue Resolutions:  
 
-2. **Permission Errors**:
+1. **Connection Issues**:  
+   - If encountering a 405 error, confirm the WebDAV URL format is correct (use the backend domain as the address).  
+   - Verify that authentication credentials are valid.  
+   - Check whether the API key has mount permissions.  
 
-   - Confirm account has required permissions
-   - Administrator account should have full permissions
-   - API key needs to specifically enable mount permissions
+2. **Permission Errors**:  
+   - Ensure the account has the required permissions.  
+   - Admin accounts should have full permissions.  
+   - API keys must explicitly have mount permissions enabled.  
 
-3. **⚠️⚠️ WebDAV Upload Issues**:
-
-   - For worker transfers, regarding Cloudflare Worker's upload limit (around 100MB), it is recommended to use direct upload mode and avoid using chunking.
-   - For Docker deployment, only need to pay attention to nginx proxy configuration, upload mode is arbitrary.
-   - Windows, RaiDrive and other client mounts do not currently support drag upload
+3. **⚠️⚠️ WebDAV Upload Issues**:  
+   - For Worker deployments, WebDAV uploads may be limited by Cloudflare's Worker upload restrictions (~100MB).  
+   - For Docker deployments, only the nginx proxy configuration needs attention, and upload methods are unrestricted.  
+   - Windows clients (e.g., RaiDrive) do not currently support drag-and-drop uploads.
 
 ## Next Steps
 
