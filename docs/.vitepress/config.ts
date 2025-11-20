@@ -40,12 +40,19 @@ export default defineConfig({
             text: "配置指南",
             items: [
               { text: "S3 存储配置", link: "/guide/s3-config" },
-              { text: "WebDAV 配置", link: "/guide/webdav" },
             ],
           },
           {
             text: "使用指南",
-            items: [{ text: "系统设置", link: "/guide/system-settings" }],
+            items: [
+              { text: "文本管理", link: "/guide/paste-management" },
+              { text: "文件管理", link: "/guide/file-management" },
+              { text: "挂载管理", link: "/guide/mount-management" },
+              { text: "目录元信息", link: "/guide/fs-meta" },
+              { text: "密钥管理", link: "/guide/key-management" },
+              { text: "WebDAV 配置", link: "/guide/webdav" },
+              { text: "系统设置", link: "/guide/system-settings" },
+            ],
           },
           {
             text: "帮助与支持",
@@ -115,12 +122,19 @@ export default defineConfig({
             text: "Configuration Guide",
             items: [
               { text: "S3 Storage Configuration", link: "/en/guide/s3-config" },
-              { text: "WebDAV Configuration", link: "/en/guide/webdav" },
             ],
           },
           {
             text: "User Guide",
-            items: [{ text: "System Settings", link: "/en/guide/system-settings" }],
+            items: [
+              { text: "Text Management", link: "/en/guide/paste-management" },
+              { text: "File Management", link: "/en/guide/file-management" },
+              { text: "Mount Management", link: "/en/guide/mount-management" },
+              { text: "FS Meta", link: "/en/guide/fs-meta" },
+              { text: "API Key Management", link: "/en/guide/key-management" },
+              { text: "WebDAV Configuration", link: "/en/guide/webdav" },
+              { text: "System Settings", link: "/en/guide/system-settings" },
+            ],
           },
           {
             text: "Help & Support",

@@ -18,7 +18,9 @@ GitHub Actions 是最推荐的部署方式，可以实现代码推送后自动�
 
 1. 访问 [Cloudflare Dashboard](https://dash.cloudflare.com/profile/api-tokens)
 2. 创建新的 API 令牌
-3. 选择"编辑 Cloudflare Workers"模板，并添加 D1 数据库编辑权限
+3. 选择"编辑 Cloudflare Workers"模板，并 `添加 D1 数据库编辑权限` (原模板中没有D1，需要手动添加D1权限)
+
+  ![cf-worker-api-token](/images/guide/cf-worker.png)
 
    ![D1](/images/guide/D1.png)
 
@@ -36,11 +38,11 @@ GitHub Actions 是最推荐的部署方式，可以实现代码推送后自动�
 
 在您 Fork 的仓库中，进入 `Settings` → `Secrets and variables` → `Actions`，添加以下 Secrets：
 
-| Secret 名称             | 必需 | 说明                             |
-| ----------------------- | ---- | -------------------------------- |
-| `CLOUDFLARE_API_TOKEN`  | ✅   | Cloudflare API 令牌              |
-| `CLOUDFLARE_ACCOUNT_ID` | ✅   | Cloudflare 账户 ID               |
-| `ENCRYPTION_SECRET`     | ❌   | 加密密钥（可选，系统会自动生成） |
+| Secret 名称             | 必需 | 说明                          |
+| ----------------------- | ---- |-----------------------------|
+| `CLOUDFLARE_API_TOKEN`  | ✅   | Cloudflare API 令牌           |
+| `CLOUDFLARE_ACCOUNT_ID` | ✅   | Cloudflare 账户 ID            |
+| `ENCRYPTION_SECRET`     | ❌   | 加密密钥(可选，系统会自动生成,推荐自己设置务必记住) |
 
 ### 2. 运行后端部署工作流
 
@@ -61,9 +63,12 @@ GitHub Actions 是最推荐的部署方式，可以实现代码推送后自动�
 为了在国内正常访问，建议配置自定义域名：
 
 1. 在 Cloudflare Workers 控制台找到您的 Worker
-2. 点击 "Settings" → "Triggers"
-3. 添加自定义域名
-4. 记录后端域名，后续配置前端时需要
+2. 点击 "Settings"
+3. 在"域和路由"下添加自定义域名
+4. 记录`后端域名`，后续配置前端时需要
+
+>Tips: 自定义域名用在后端是因为worker自带的dev域名是被墙(中国大陆无法访问)，所以需要自定义。访问前端时会调用后端接口，也就是对应后端的域名，所以务必记住
+
 
 ### 4. 运行前端部署工作流
 

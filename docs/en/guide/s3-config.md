@@ -34,25 +34,27 @@ The following prices are based on the latest official information as of December
 
 ### 1. Enable R2 Service
 
-1. Login to [Cloudflare Console](https://dash.cloudflare.com)
-2. Go to "R2 Object Storage"
+1. Log in to the [Cloudflare Dashboard](https://dash.cloudflare.com)
+2. Navigate to "R2 Object Storage"
 3. Click "Create bucket"
-4. Enter bucket name (e.g., `cloudpaste-files-your-name`, must be globally unique)
+4. Enter a bucket name (e.g., `cloudpaste-files-your-name`, which must be globally unique)
 
-### 2. Create API Token
+### 2. Create an API Token
 
 1. Go to "Manage R2 API tokens"
 2. Click "Create API token"
-3. Manage API tokens
-   ![R2api](/images/guide/R2/R2-api.png)
+3. Manage API tokens—you can choose either an Account API token (recommended) or a User API token  
+   ![R2api](/images/guide/R2/R2-api.png)  
    ![R2rw](/images/guide/R2/R2-rw.png)
-4. Record Access Key ID and Secret Access Key
+4. Record the Access Key ID and Secret Access Key
 
-### 3. Get Endpoint Information
+### 3. Retrieve Endpoint Information
 
 ```
 Endpoint format: https://<account-id>.r2.cloudflarestorage.com
 ```
+
+![R2-url](/images/guide/R2/R2-url.png)
 
 You can find the complete endpoint URL in the bucket details page of the R2 console.
 

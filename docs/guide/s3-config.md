@@ -43,7 +43,7 @@ CloudPaste 支持多种 S3 兼容的对象存储服务，为您的文件提供�
 
 1. 进入 "Manage R2 API tokens"
 2. 点击 "Create API token"
-3. 管理 API 令牌
+3. 管理 API 令牌,创建 帐户 API 令牌(推荐)/用户 API 令牌 都可以任选
    ![R2api](/images/guide/R2/R2-api.png)
    ![R2rw](/images/guide/R2/R2-rw.png)
 4. 记录 Access Key ID 和 Secret Access Key
@@ -53,6 +53,8 @@ CloudPaste 支持多种 S3 兼容的对象存储服务，为您的文件提供�
 ```
 端点格式: https://<account-id>.r2.cloudflarestorage.com
 ```
+
+![R2-url](/images/guide/R2/R2-url.png)
 
 在 R2 控制台的存储桶详情页面可以找到完整的端点 URL。
 
