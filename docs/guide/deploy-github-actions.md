@@ -10,6 +10,31 @@ GitHub Actions 是最推荐的部署方式，可以实现代码推送后自动�
 - ✅ **高可用**: 99.9% 的服务可用性
 - ✅ **HTTPS**: 自动 HTTPS 证书
 
+## 部署架构选择
+
+CloudPaste 提供两种部署架构供您选择，根据不同需求和使用场景灵活配置。
+
+### 🔄 一体化部署（推荐）
+
+**前后端部署在同一个 Cloudflare Worker 上**
+
+✨ **优势：**
+- **前后端同源** - 无跨域问题，配置更简单
+- **成本更低** - 导航请求不计费，相比分离部署节省 60%+ 成本
+- **部署更简单** - 一次部署完成前后端，无需管理多个服务
+- **性能更好** - 前后端在同一 Worker，响应速度更快
+
+### 🔀 前后端分离部署
+
+**后端部署到 Cloudflare Workers，前端部署到 Cloudflare Pages**
+
+✨ **优势：**
+- **灵活管理** - 前后端独立部署，互不影响
+- **团队协作** - 前后端可由不同团队维护
+- **扩展性强** - 前端可轻松切换到其他平台（如 Vercel）
+
+---
+
 ## 前期准备
 
 ### 1. 获取 Cloudflare API 信息
@@ -32,70 +57,206 @@ GitHub Actions 是最推荐的部署方式，可以实现代码推送后自动�
 
 访问 [CloudPaste 仓库](https://github.com/ling-drag0n/CloudPaste) 并点击 Fork 按钮。
 
-## 配置步骤
+## 配置 GitHub 仓库
 
 ### 1. 配置 GitHub Secrets
 
-在您 Fork 的仓库中，进入 `Settings` → `Secrets and variables` → `Actions`，添加以下 Secrets：
+在您 Fork 的仓库中，进入 `Settings` → `Secrets and variables` → `Actions` → `New repository secret`，添加以下 Secrets：
 
-| Secret 名称             | 必需 | 说明                          |
-| ----------------------- | ---- |-----------------------------|
-| `CLOUDFLARE_API_TOKEN`  | ✅   | Cloudflare API 令牌           |
-| `CLOUDFLARE_ACCOUNT_ID` | ✅   | Cloudflare 账户 ID            |
-| `ENCRYPTION_SECRET`     | ❌   | 加密密钥(可选，系统会自动生成,推荐自己设置务必记住) |
+| Secret 名称             | 必需 | 用途                                                  |
+| ----------------------- | ---- | ----------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | ✅   | Cloudflare API 令牌（需要 Workers、D1 和 Pages 权限） |
+| `CLOUDFLARE_ACCOUNT_ID` | ✅   | Cloudflare 账户 ID                                    |
+| `ENCRYPTION_SECRET`     | ❌   | 用于加密敏感数据的密钥（如不提供，将自动生成）        |
+| `ACTIONS_VAR_TOKEN`     | ✅   | 用于部署控制面板的 GitHub Token（使用控制面板时需要，如不使用则不需要） |
 
-### 2. 运行后端部署工作流
+### 2. （可选）配置部署控制面板
 
-1. 进入 `Actions` 标签页
-2. 选择 "Deploy Backend" 工作流
-3. 点击 "Run workflow"
-4. 等待部署完成
+如果您想使用可视化控制面板管理自动部署开关，需要额外配置：
 
-工作流会自动：
+**创建 GitHub Personal Access Token：**
 
-- 创建 D1 数据库
-- 初始化数据库结构
-- 部署 Worker 到 Cloudflare
-- 设置环境变量
+1. 访问 [GitHub Token 设置](https://github.com/settings/tokens)
+2. 点击 **Generate new token** → **Generate new token (classic)**
+3. 设置 Token 名称（如 `CloudPaste Deployment Control`）
+4. 选择权限：
+   - ✅ **repo** (完整仓库访问权限)
+   - ✅ **workflow** (工作流权限)
+5. 点击 **Generate token**
+6. 复制 Token 并保存为 Secret `ACTIONS_VAR_TOKEN`
+7. 如图所示填入对应仓库的密钥中
 
-### 3. 配置自定义域名（推荐）
+   ![github](/images/guide/github.png)
 
-为了在国内正常访问，建议配置自定义域名：
+**使用控制面板：**
 
-1. 在 Cloudflare Workers 控制台找到您的 Worker
-2. 点击 "Settings"
-3. 在"域和路由"下添加自定义域名
-4. 记录`后端域名`，后续配置前端时需要
+1. 进入仓库 **Actions** 标签页
+2. 在左侧工作流列表中，点击 **🎛️ 部署控制面板**
+3. 点击右侧 **Run workflow** → **Run workflow**
+4. 在弹出界面中选择要开启/关闭的部署方式
+5. 点击 **Run workflow** 应用配置
+6. 控制面板会在写入开关状态后，自动触发对应的部署工作流一次（是否真正部署由当前开关状态决定）
+7. 如图所示：图为是只开启 **Worker前后端一体化** 的部署方式
+   ![github-action](/images/guide/github-action.png)
 
->Tips: 自定义域名用在后端是因为worker自带的dev域名是被墙(中国大陆无法访问)，所以需要自定义。访问前端时会调用后端接口，也就是对应后端的域名，所以务必记住
 
+## 🔄 一体化部署教程（推荐）
 
-### 4. 运行前端部署工作流
+### 部署步骤
 
-1. 选择 "Deploy Frontend" 工作流
-2. 点击 "Run workflow"
-3. 等待部署完成
+#### 1️⃣ 配置完成 GitHub Secrets
 
-### 5. 配置前端环境变量
+参考上方"配置 GitHub 仓库"章节完成配置。
 
-前端部署完成后，需要配置后端 API 地址：
+#### 2️⃣ 触发部署工作流
 
-1. 进入 Cloudflare Pages 控制台
-2. 找到您的项目（通常名为 `cloudpaste-frontend`）
-3. 进入 `Settings` → `Environment variables`
-4. 添加环境变量：
-   - **名称**: `VITE_BACKEND_URL`
-   - **值**: 您的后端 Worker URL（如 `https://cloudpaste-backend.your-username.workers.dev`）
+**方式一：手动触发（首次部署推荐）**
 
-![page1](/images/guide/test-1.png)
+- 进入仓库 **Actions** 标签页
+- 点击左侧 **Deploy SPA CF Workers[一体化部署]**
+- 点击右侧 **Run workflow** → 选择 `main` 分支 → **Run workflow**
 
-::: warning 重要提示
-环境变量值必须是完整的 URL，包含 `https://` 前缀，末尾不要添加 `/`
+**方式二：自动触发**
+
+- 使用部署控制面板开启 **SPA 一体化自动部署**
+- 之后每次推送 `frontend/` 或 `backend/` 目录的代码到 `main` 分支时自动部署
+
+::: tip 提示
+在 Actions 页面手动运行 **Deploy SPA CF Workers[一体化部署]** 工作流时，会强制部署一次，不受自动部署开关影响；自动部署行为（push 或控制面板触发）始终由 `SPA_DEPLOY` 开关控制。
 :::
 
-### 6. 重新部署前端
+#### 3️⃣ 等待部署完成
 
-配置环境变量后，需要重新运行前端工作流以使配置生效。
+部署过程约 3-5 分钟，工作流会自动完成以下步骤：
+
+- ✅ 构建前端静态资源
+- ✅ 安装后端依赖
+- ✅ 创建/验证 D1 数据库
+- ✅ 初始化数据库表结构
+- ✅ 设置加密密钥
+- ✅ 部署到 Cloudflare Workers
+
+部署成功后，您会在 Actions 日志中看到类似输出：
+
+```
+Published cloudpaste-spa (X.XX sec)
+  https://cloudpaste-spa.your-account.workers.dev
+```
+
+### 部署完成
+
+**访问您的应用：** `https://cloudpaste-spa.your-account.workers.dev`
+
+**后续配置：**
+
+1. 首次访问会自动初始化数据库
+2. 使用默认管理员账户登录：
+   - 用户名：`admin`
+   - 密码：`admin123`
+3. **⚠️ 重要：立即修改默认管理员密码！**
+4. 在管理员面板中配置您的 S3/WEBDAV 兼容存储服务
+5. （可选）在 Cloudflare Dashboard 中绑定自定义域名
+
+**优势回顾：**
+- ✅ 前后端同源，无跨域问题
+- ✅ 导航请求免费，降低成本 60%+
+- ✅ 一次部署完成，管理简单
+
+---
+
+## 🔀 前后端分离部署教程
+
+如果您选择前后端分离部署，请按以下步骤操作：
+
+### 后端部署
+
+#### 1️⃣ 配置完成 GitHub Secrets
+
+参考上方"配置 GitHub 仓库"章节完成配置。
+
+#### 2️⃣ 触发后端部署
+
+**方式一：手动触发**
+
+- 进入仓库 **Actions** 标签页
+- 点击左侧 **Deploy Backend CF Workers[Worker后端分离部署]**
+- 点击 **Run workflow** → **Run workflow**
+
+**方式二：自动触发**
+
+- 使用部署控制面板开启 **后端分离自动部署**
+- 推送 `backend/` 目录代码时自动部署
+
+#### 3️⃣ 等待部署完成
+
+工作流会自动完成：
+
+- ✅ 创建/验证 D1 数据库
+- ✅ 初始化数据库表结构
+- ✅ 设置加密密钥
+- ✅ 部署 Worker 到 Cloudflare
+
+#### 4️⃣ 记录后端地址
+
+部署成功后记下您的后端 Worker URL：
+`https://cloudpaste-backend.your-account.workers.dev`
+
+::: warning 重要
+记住您的后端域名，前端部署时需要使用！
+:::
+
+### 前端部署
+
+#### 1️⃣ 触发前端部署
+
+**方式一：手动触发**
+
+- 进入仓库 **Actions** 标签页
+- 点击左侧 **Deploy Frontend CF Pages[Pages前端分离部署]**
+- 点击 **Run workflow** → **Run workflow**
+
+**方式二：自动触发**
+
+- 使用部署控制面板开启 **前端分离自动部署**
+- 推送 `frontend/` 目录代码时自动部署
+
+::: tip 提示
+在 Actions 页面手动运行「后端」「前端」部署工作流时，同样会强制部署一次，不受自动部署开关影响；自动部署行为由 `BACKEND_DEPLOY` / `FRONTEND_DEPLOY` 开关控制。
+:::
+
+#### 2️⃣ 配置环境变量
+
+**必须步骤：前端部署完成后，需要手动配置后端地址！**
+
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/)
+2. 导航到 **Pages** → **cloudpaste-frontend**
+3. 点击 **Settings** → **Environment variables**
+4. 添加环境变量：
+   - **名称**：`VITE_BACKEND_URL`
+   - **值**：您的后端 Worker URL（如 `https://cloudpaste-backend.your-account.workers.dev`）
+   - **注意**：末尾不带 `/`，建议使用自定义域名
+
+::: warning 重要
+必须填写完整的后端域名，格式：`https://xxxx.com`
+:::
+
+#### 3️⃣ 重新部署前端
+
+**重要：配置环境变量后，必须再次运行前端工作流！**
+
+- 返回 GitHub Actions
+- 再次手动触发 **Deploy Frontend CF Pages** 工作流
+- 这样才能加载后端域名配置
+
+#### 4️⃣ 访问应用
+
+前端部署地址：`https://cloudpaste-frontend.pages.dev`
+
+::: warning 注意
+务必严格按照步骤操作，否则会出现后端域名加载失败！
+:::
+
+---
 
 ## 验证部署
 

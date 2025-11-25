@@ -52,7 +52,123 @@ cd backend && npm install
 cd frontend && npm install
 ```
 
-## Cloudflare Manual Deployment
+## Deployment Architecture Selection
+
+CloudPaste offers two manual deployment architectures to choose from:
+
+### 🔄 Unified Deployment (Recommended)
+
+**Frontend and backend deployed on the same Cloudflare Worker**
+
+✨ **Advantages:**
+- **Same Origin** - No CORS issues, simpler configuration
+- **Lower Cost** - Navigation requests are free, saving 60%+ costs compared to separated deployment
+- **Simpler Deployment** - Deploy frontend and backend in one go, no need to manage multiple services
+- **Better Performance** - Frontend and backend on the same Worker, faster response time
+
+### 🔀 Separated Deployment
+
+**Backend deployed to Cloudflare Workers, frontend deployed to Cloudflare Pages**
+
+✨ **Advantages:**
+- **Flexible Management** - Independent deployment, no mutual interference
+- **Team Collaboration** - Frontend and backend can be maintained by different teams
+- **Scalability** - Frontend can easily switch to other platforms (e.g., Vercel)
+
+---
+
+## 🔄 Unified Manual Deployment (Recommended)
+
+Unified deployment deploys both frontend and backend to the same Cloudflare Worker, offering simpler configuration and lower costs.
+
+### Step 1: Clone Repository
+
+```bash
+git clone https://github.com/ling-drag0n/CloudPaste.git
+cd CloudPaste
+```
+
+### Step 2: Build Frontend
+
+```bash
+cd frontend
+npm install
+npm run build
+cd ..
+```
+
+**Verify build output:** Ensure `frontend/dist` directory exists and contains `index.html`
+
+### Step 3: Configure Backend
+
+```bash
+cd backend
+npm install
+npx wrangler login
+```
+
+### Step 4: Create D1 Database
+
+```bash
+npx wrangler d1 create cloudpaste-db
+```
+
+Note the `database_id` from the output (e.g., `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+
+### Step 5: Initialize Database
+
+```bash
+npx wrangler d1 execute cloudpaste-db --file=./schema.sql
+```
+
+### Step 6: Configure wrangler.spa.toml
+
+Edit `backend/wrangler.spa.toml` file and modify the database ID:
+
+```toml
+[[d1_databases]]
+binding = "DB"
+database_name = "cloudpaste-db"
+database_id = "YOUR_DATABASE_ID"  # Replace with ID from Step 4
+```
+
+### Step 7: Deploy to Cloudflare Workers
+
+```bash
+npx wrangler deploy --config wrangler.spa.toml
+```
+
+After successful deployment, you'll see your application URL:
+
+```
+Published cloudpaste-spa (X.XX sec)
+  https://cloudpaste-spa.your-account.workers.dev
+```
+
+### Deployment Complete!
+
+**Visit your application:** Open the URL above to use CloudPaste
+
+**Post-deployment Configuration:**
+1. The database will be automatically initialized on first visit
+2. Log in with the default admin account (username: `admin`, password: `admin123`)
+3. **⚠️ Change the default admin password immediately!**
+4. Configure S3/WEBDAV-compatible storage service in the admin panel
+5. (Optional) Bind a custom domain in Cloudflare Dashboard
+
+::: warning Important Reminder: File Upload Configuration
+If you need to use file upload functionality, please configure S3 storage service and CORS settings first.
+
+**👉 [Configure S3 Storage Now](/en/guide/s3-config)**
+
+Pay special attention to Cloudflare R2 CORS configuration, this is the step users most easily overlook!
+:::
+
+---
+
+## 🔀 Separated Manual Deployment
+
+If you need to deploy and manage frontend and backend independently, you can choose the separated deployment method.
 
 ### 1. Configure Wrangler
 
