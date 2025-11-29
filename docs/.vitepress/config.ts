@@ -39,7 +39,9 @@ export default defineConfig({
           {
             text: "配置指南",
             items: [
+              { text: "存储/挂载通用说明", link: "/guide/storage-common" },
               { text: "S3 存储配置", link: "/guide/s3-config" },
+              { text: "WebDAV 存储配置", link: "/guide/webdav-storage-config" },
             ],
           },
           {
@@ -121,7 +123,9 @@ export default defineConfig({
           {
             text: "Configuration Guide",
             items: [
+              { text: "Storage/Mount Common Settings", link: "/en/guide/storage-common" },
               { text: "S3 Storage Configuration", link: "/en/guide/s3-config" },
+              { text: "WebDAV Storage Configuration", link: "/en/guide/webdav-storage-config" },
             ],
           },
           {
