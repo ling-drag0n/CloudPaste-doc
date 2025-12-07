@@ -42,6 +42,8 @@ export default defineConfig({
               { text: "存储/挂载通用说明", link: "/guide/storage-common" },
               { text: "S3 存储配置", link: "/guide/s3-config" },
               { text: "WebDAV 存储配置", link: "/guide/webdav-storage-config" },
+              { text: "OneDrive 存储配置", link: "/guide/onedrive-storage-config" },
+              { text: "本地存储配置", link: "/guide/local-storage-config" },
             ],
           },
           {
@@ -126,6 +128,8 @@ export default defineConfig({
               { text: "Storage/Mount Common Settings", link: "/en/guide/storage-common" },
               { text: "S3 Storage Configuration", link: "/en/guide/s3-config" },
               { text: "WebDAV Storage Configuration", link: "/en/guide/webdav-storage-config" },
+              { text: "OneDrive Storage Configuration", link: "/en/guide/onedrive-storage-config" },
+              { text: "Local Storage Configuration", link: "/en/guide/local-storage-config" },
             ],
           },
           {
