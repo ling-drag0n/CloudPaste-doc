@@ -103,6 +103,12 @@ Whether you're using a desktop computer, tablet or mobile phone, CloudPaste prov
 
 ![Multi-device Preview](/images/guide/image.png)
 
+### Gallery Mode
+
+![Gallery Interface 1](/images/guide/image-tu.png)
+
+![Gallery Interface 1](/images/guide/image-tu2.png)
+
 ### File Management Interface
 
 Clear and intuitive file browser, supporting upload, download, preview, sharing and other operations.

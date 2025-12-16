@@ -101,7 +101,7 @@ GitHub API 存储需要 Personal Access Token 进行认证：
 - **GitHub 代理（gh_proxy）**（可选）
   - 用于加速 `raw.githubusercontent.com` 下载的代理地址
   - 仅对公开仓库的直链生效
-  - 示例：`https://mirror.ghproxy.com`
+  - 示例：`https://mirror.ghproxy.com/https://raw.githubusercontent.com` 、`https://ghproxy.com/raw.githubusercontent.com`
 
 - **提交者名称（committer_name）**（可选）
   - Git 提交时的 Committer 名称

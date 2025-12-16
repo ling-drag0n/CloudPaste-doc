@@ -159,6 +159,9 @@ WebDAV downloads support three modes, deciding **where the file is actually fetc
 
 ## 6. Cloudpaste-Proxy.js in a Nutshell
 
+>[!warning]
+> ⚠ **Recommended for personal use, high-volume proxy may be subject to sanctions**
+
 > File location: repo root `Cloudpaste-Proxy.js`
 
 ### What it does

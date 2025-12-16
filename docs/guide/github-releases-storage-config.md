@@ -125,8 +125,7 @@ GitHub Releases 存储驱动支持以下能力：
 
 - **GitHub 代理（gh_proxy）**（可选）
   - 用于加速 GitHub 下载的代理地址
-  - 示例：`https://mirror.ghproxy.com`
-  - 仅替换 `https://github.com` 开头的下载链接
+  - 示例：`https://mirror.ghproxy.com/https://github.com` 、`https://ghproxy.com/github.com`
 
 ## 4. 目录结构说明
 

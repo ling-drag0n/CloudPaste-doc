@@ -150,6 +150,9 @@ WebDAV 下载文件时有三种模式，决定「文件从哪儿取」。
 
 ## 6. Cloudpaste-Proxy.js 简要说明
 
+>[!warning]
+> ⚠ **建议个人使用，大流量代理可能会受到制裁**
+
 > 文件位置：仓库根目录 `Cloudpaste-Proxy.js`
 
 ### 它做什么
