@@ -42,12 +42,13 @@ CloudPaste 提供了丰富的系统设置选项，让您可以根据需要自定
 要作为视频预览的文件扩展名，以 , 分隔，例如 mp4,webm,ogg。
 
 ### 图片类型
-要作为图像预览的文件扩展名，以 , 分隔，例如 jpg,jpeg,png,gif,webp。
+要作为图像预览的文件扩展名，以 , 分隔，例如 jpg,jpeg,png,gif,webp,heic。
+支持HEIC格式 和 Live Photo实况图片(文件夹下必须得有同名的图片和视频文件才可触发实况)
 
 ### Office类型
 
 要作为office预览的文件扩展名，以 , 分隔，例如 doc,docx,ppt,pptx,xls,xlsx。
-目前是通过在线的微软和谷歌的在线服务进行转换。
+目前是通过本地渲染(仅支持docx，pptx，xlsx)，其余的通过在线的微软和谷歌的在线服务进行转换。
 
 ### 文档文件
 

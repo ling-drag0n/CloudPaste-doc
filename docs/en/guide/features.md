@@ -1,154 +1,387 @@
 # Features
 
-CloudPaste provides rich functionality to meet different users' file sharing and management needs.
+CloudPaste offers rich features to meet various file sharing and management needs from individuals to teams.
 
-## 📝 Markdown Editing & Sharing
+## 📝 Markdown Editing and Sharing
 
-### Powerful Editor
+### Professional Editing Experience
 
-CloudPaste integrates the [Vditor](https://github.com/Vanessa219/vditor) editor, providing professional Markdown editing experience:
+CloudPaste integrates a powerful Markdown editor, making text creation more efficient:
 
-- **WYSIWYG**: Supports real-time preview and WYSIWYG editing
-- **Syntax Highlighting**: Code block syntax highlighting
-- **Keyboard Shortcuts**: Rich keyboard shortcuts support
-- **Toolbar**: Intuitive editing toolbar
+- **WYSIWYG Editing**: Real-time preview of editing effects, making writing more intuitive
+- **Rich Syntax Support**: Supports GitHub-style Markdown, mathematical formulas, flowcharts, mind maps, etc.
+- **Code Highlighting**: Provides professional code display capabilities for programmers
+- **Quick Operations**: Comprehensive keyboard shortcuts to improve creation efficiency
 
-### Rich Syntax Support
+### Flexible Sharing Controls
 
-- **GitHub Flavored Markdown**: Full GFM syntax support
-- **Math Formulas**: LaTeX math formula rendering
-- **Flowcharts**: Mermaid flowchart support
-- **Mind Maps**: Mind mapping functionality
-- **Tables**: Visual table editing
-- **Task Lists**: Todo list support
+Set fine-grained access controls for each text share:
 
-### Secure Sharing Features
-
-- **Password Protection**: Set access passwords for content
-- **Expiration Time**: Custom content expiration time
-- **Access Limits**: Limit maximum view count
-- **Custom Links**: Personalized sharing links
-- **Notes**: Add content notes
+- **Password Protection**: Set access passwords for sensitive content
+- **Expiration Control**: Set automatic expiration time to avoid long-term exposure
+- **Access Count Limit**: Limit view counts, automatically expire when reached
+- **Custom Links**: Create memorable personalized sharing links
 
 ### Multi-format Export
 
-- **PDF Export**: High-quality PDF documents
-- **Markdown Export**: Original Markdown files
-- **HTML Export**: Static HTML pages
-- **PNG Export**: Image format export
-- **Word Export**: Microsoft Word documents
+Export to multiple formats with one click to meet different scenario needs:
 
-### Convenient Sharing
+- PDF, Word, HTML, PNG, raw Markdown and other formats
+- Maintain consistent formatting, suitable for sharing and archiving
 
-- **One-click Copy**: Quick copy sharing links
-- **QR Code**: Auto-generate sharing QR codes
-- **Raw Links**: GitHub Raw-like direct link access
-- **Auto Save**: Draft auto-save support
+### Convenient Sharing Methods
 
-## 📤 File Upload & Management
+- **One-click Copy Link**: Quickly share with others
+- **QR Code Generation**: Convenient for mobile scanning access
+- **Raw Direct Link**: Suitable for API calls and automation scenarios
+- **Draft Auto-save**: Avoid accidental loss of edited content
 
-### Multi-Storage Support
+## 📤 Flexible Storage Options
 
-CloudPaste supports multiple S3-compatible storage services:
+### Diverse Storage Backends
 
-- **Cloudflare R2**: Officially recommended, cost-effective
-- **Backblaze B2**: Economical storage choice
-- **AWS S3**: Industry standard object storage
-- **MinIO**: Self-hosted object storage service
-- **Other S3-compatible services**: Supports all S3 API compatible storage
+CloudPaste supports connecting to your favorite storage services, with data completely under your control:
 
-### Storage Configuration Management
+#### Object Storage (S3 Compatible)
 
-- **Visual Configuration**: Intuitive storage configuration interface
-- **Multiple Storage Spaces**: Support configuring multiple storage spaces
-- **Flexible Switching**: Can switch default storage source at any time
-- **Connection Testing**: Automatic connection testing during configuration
+Connect to mainstream object storage services for cost-effectiveness and global acceleration:
 
-### Efficient Upload Mechanism
+- **Cloudflare R2**: Zero egress fees, officially recommended
+- **Backblaze B2**: Affordable pricing, suitable for large-capacity storage
+- **AWS S3**: Industry standard, global coverage
+- **MinIO**: Self-hosted solution, complete control
+- **Domestic Services**: Alibaba Cloud OSS, Tencent Cloud COS, Qiniu Cloud, etc.
 
-- **Presigned URLs**: Direct upload to S3 storage
-- **Multi-file Upload**: Support batch file upload
-- **Large File Support**: Automatic chunked upload for large files
-- **Real-time Progress**: Real-time upload progress display
+Suitable for scenarios requiring high performance, large capacity, and global access.
 
-### File Management Features
+#### Cloud Storage
 
-- **Online Preview**: Preview for common documents, images, media files
-- **Direct Link Generation**: Generate direct access links for files
-- **Metadata Management**: File notes, passwords, expiration time
-- **Access Statistics**: File access count and trend analysis
-- **Batch Operations**: Batch file deletion and property modification
+Connect to existing cloud storage through WebDAV protocol:
 
-## 🔄 WebDAV and Mount Point Management
+- Nutstore, Alist, NextCloud and other mainstream WebDAV services
+- No need to purchase additional storage, utilize existing resources
 
-### WebDAV Protocol Support
+Suitable for individual users, reusing existing cloud storage space.
 
-- **Standard Protocol**: Complete WebDAV protocol implementation
-- **Network Drive**: Support mounting as network drive
-- **Third-party Clients**: Compatible with various WebDAV clients
+#### OneDrive / Google Drive
 
-### Mount Point Management
+Securely connect to your cloud storage via OAuth:
 
-- **Multiple Mount Points**: Support creating multiple mount points
-- **Storage Mapping**: Connect different storage services
-- **Permission Control**: Fine-grained mount point access permissions
-- **API Key Integration**: Authorize access through API keys
+- Supports personal and enterprise versions (OneDrive 21Vianet, Google Workspace)
+- Auto-refresh authorization, no frequent login required
+- Supports shared drives and team collaboration
 
-### File Operation Support
+Suitable for users with existing Microsoft 365 or Google Workspace subscriptions.
 
-- **Complete Operations**: Create, upload, delete, rename
-- **Directory Management**: Directory creation and management
-- **Large File Handling**: Automatic chunked upload mechanism
-- **Permission Inheritance**: Directory permission inheritance mechanism
+#### GitHub Storage
 
-## 🔐 Lightweight Permission Management
+Innovatively use GitHub as a storage backend:
 
-### Administrator Permission Control
+- **GitHub Releases**: Read-only mode, view release files of open source projects
+- **GitHub API**: Read-write mode, directly operate repository files
 
-- **System Management**: Global system settings configuration
-- **Content Moderation**: Management permissions for all user content
-- **Storage Management**: Complete management of S3 storage services
-- **Permission Assignment**: Creation and permission management of API keys
-- **Data Analysis**: Complete access to statistical data
+Suitable for developers and open source projects, combining version control with file sharing.
 
-### API Key Permission Control
+#### Local Disk
 
-- **Text Permissions**: Create/edit/delete text content
-- **File Permissions**: Upload/manage/delete files
-- **Storage Permissions**: Can select specific storage configurations
-- **Mount Permissions**: WebDAV mount access permissions
+Use server local disk in Docker or Node.js deployment environments:
 
-### Security Mechanisms
+- Zero cost, no third-party services required
+- Completely offline available
 
-- **Time Control**: Custom API key validity period
-- **Automatic Expiration**: Automatic expiration mechanism when expired
-- **Manual Revocation**: Revoke API keys at any time
+Suitable for intranet environments or scenarios with extremely high data privacy requirements.
 
-## 💫 System Features
+### Simple Configuration Management
 
-### User Experience
+- **Visual Configuration Interface**: No need to write configuration files, complete through forms
+- **Connection Testing**: One-click test if storage works properly
+- **Multiple Storage Coexistence**: Configure multiple storages, flexibly switch between them
+- **Secure Encryption**: Passwords and keys are encrypted and saved in the backend to ensure security
 
-- **Responsive Design**: Perfect adaptation for mobile devices and desktop
-- **Multi-language Support**: Chinese/English bilingual interface
-- **Theme Switching**: Free switching between light/dark themes
-- **PWA Support**: Can be used offline and installed to desktop
+## 📂 Powerful File Management
 
-### Security Authentication
+### Efficient Upload Experience
 
-- **JWT Authentication**: Administrator authentication system based on JWT
-- **Session Management**: Secure session management mechanism
-- **Password Encryption**: Secure password storage and verification
+#### Multiple Upload Methods
 
-### Performance Optimization
+- **Drag and Drop Upload**: Directly drag files to the browser
+- **Batch Upload**: Select multiple files at once
+- **Chunked Upload**: Large files are automatically chunked, supports resumable upload
+- **Direct Upload to Storage**: Files are uploaded directly to object storage, bypassing the server (improves speed, reduces cost)
 
-- **Edge Computing**: Based on Cloudflare Workers
-- **Global CDN**: Cloudflare global node acceleration
-- **Caching Strategy**: Intelligent caching to improve performance
-- **Compressed Transmission**: Automatic compression to reduce transmission
+#### Real-time Progress Feedback
+
+- Upload progress displayed in real-time
+- Automatic retry on failure
+- Can cancel or pause at any time
+
+### Rich Preview Capabilities
+
+View multiple file formats online without downloading:
+
+#### Image Preview
+
+- Supports common image formats (JPG, PNG, GIF, WebP, SVG, etc.)
+- **EXIF Information Display**: Automatically extract camera model, aperture, shutter, ISO, focal length and other photography parameters
+- **GPS Location**: Photo shooting location displayed on map, supports Google Maps and Amap links
+- **Live Photo Playback**: Native playback of iPhone Live Photos
+
+#### Multimedia Preview
+
+- **Audio Player**: MP3, WAV, FLAC and other formats
+- **Video Player**: MP4, WebM, MOV and other formats, supports dragging progress bar
+
+#### Documents and Code
+
+- **PDF Reader**: Smooth PDF online viewing
+- **Code Highlighting**: Syntax highlighting for 100+ programming languages
+- **Markdown Rendering**: Real-time rendering display effect
+- **Office Documents**: Word, Excel, PowerPoint online preview
+
+#### Archives
+
+- View file list within archives
+- Browse content without decompression
+
+### Flexible Access Methods
+
+CloudPaste provides three file access methods, automatically selecting the optimal solution:
+
+- **Direct Link Access**: Files downloaded directly from storage source, fastest speed (suitable for public files)
+- **Proxy Access**: Routed through CloudPaste server, supports password protection and access control
+- **Custom Proxy**: Use external CDN or proxy service, balancing speed and security
+
+The system automatically selects the most appropriate method based on storage type and permission settings.
+
+### Fine-grained Permission Control
+
+#### File-level Permissions
+
+- Set access passwords for individual files
+- Set file expiration time, automatically delete when expired
+- Limit maximum access count
+
+#### Directory-level Permissions
+
+- Set unified password for entire directory
+- Customize directory description (supports Markdown)
+- Hide specific files (e.g., hide files starting with .)
+- Subdirectories automatically inherit parent directory settings
+
+### Convenient Batch Operations
+
+- **Batch Upload**: Upload multiple files at once
+- **Batch Delete**: Quickly clean up unwanted files
+- **Batch Copy/Move**: Support cross-storage copying (background asynchronous processing, does not affect other operations)
+
+## 🔗 WebDAV Support
+
+### Use as Network Drive
+
+CloudPaste fully implements the WebDAV protocol, allowing you to:
+
+- **Windows**: Map as network drive ("Map network drive" feature)
+- **macOS**: Connect to server through Finder
+- **Linux**: Mount using davfs2
+- **Mobile**: Use FE File Manager (iOS) or Solid Explorer (Android)
+
+### Seamless File Operations
+
+After connection, operate just like local folders:
+
+- Drag and drop files for upload and download
+- Create, rename, delete files and folders
+- Copy and move files
+- Directly open and edit files in Office and other applications
+
+### Flexible Policy Selection
+
+Choose WebDAV access policy based on actual needs:
+
+- **Direct Mode**: WebDAV requests directly redirected to storage source (fast speed)
+- **Proxy Mode**: All traffic passes through server (suitable for scenarios requiring unified authentication)
+- **Custom Proxy**: Use external proxy service (highest flexibility)
+
+## 🔐 Security and Permissions
+
+### Dual Authentication System
+
+#### Administrator Account
+
+- Has highest system permissions
+- Manage all storage configurations, files and users
+- View complete statistics
+
+#### API Keys
+
+Create dedicated keys for different users or applications, precisely controlling permissions:
+
+- **Text Sharing Permissions**: Create and manage text shares
+- **File Sharing Permissions**: Upload and manage file shares
+- **File System Permissions**: Browse, upload, copy, rename, delete files
+- **WebDAV Permissions**: Access through WebDAV protocol
+
+### Flexible Access Control
+
+#### Path Restrictions
+
+Limit API keys to access only specific directories, achieving multi-tenant isolation:
+
+- Example: User A can only access the `/user-a/` directory
+- Suitable for assigning independent spaces to different users
+
+#### Storage Whitelist
+
+Control which storages API keys can access:
+
+- Example: Temporary keys can only access temporary storage
+- Avoid accidental operations on sensitive storage
+
+#### Time Control
+
+- Set API key expiration time, automatically invalidates
+- Manually revoke keys no longer needed at any time
+
+### Data Security
+
+- **Sensitive Information Encryption**: Passwords, keys and other sensitive fields are encrypted for storage
+- **Hotlink Protection**: Supports signature verification to prevent unauthorized access
+- **Password Hash Storage**: User passwords are securely stored and cannot be reverse-decrypted
+
+## 💫 Modern Experience
+
+### Cross-platform Support
+
+#### Responsive Design
+
+- **Mobile Optimization**: Perfect adaptation for phones and tablets
+- **Desktop Enhancement**: Automatically switch to multi-column layout on large screens
+- **Touch-friendly**: Supports touch gesture operations
+
+#### PWA Progressive App
+
+- Install to desktop or home screen, use like a native app
+- Some features support offline access
+- Quick startup, no need to open browser every time
+
+### Multi-language Interface
+
+- Supports Chinese (Simplified) and English
+- One-click language switch, no page refresh needed
+- All interface elements fully translated
+
+### Themes and Personalization
+
+- **Light Mode**: Suitable for daytime use
+- **Dark Mode**: More comfortable for nighttime use
+- **Auto Switch**: Follow system theme settings
+
+### Smooth Interaction
+
+- Immediate operation feedback (success, warning, error prompts)
+- Double confirmation for dangerous operations
+- Real-time display of upload/download progress
+- Smooth loading animations
+
+## ⚡ High-performance Architecture
+
+### Edge Computing Acceleration
+
+Deployed based on Cloudflare Workers, with nearby responses from 300+ global data centers:
+
+- Millisecond-level response regardless of user location
+- Zero cold start, instant request processing
+- On-demand scaling, easily handle traffic peaks
+
+### Smart Caching
+
+- Directory list smart caching, reducing storage API calls
+- Presigned URL caching, speeding up file access
+- Manual cache clearing available to ensure data freshness
+
+### Global CDN
+
+- Static resources distributed through Cloudflare CDN
+- Object storage comes with global acceleration
+- Supports custom domains and CNAME
+
+## 🛠️ Operations-friendly
+
+### Flexible Deployment Methods
+
+Choose the deployment method that suits you best:
+
+- **Cloudflare Workers** (Recommended): Zero server maintenance, global acceleration
+- **Docker**: One-click deployment, suitable for self-hosted servers
+- **Node.js**: Traditional deployment method, best compatibility
+
+### Data Backup and Recovery
+
+#### Easy Backup
+
+- One-click export all data (JSON format)
+- Option to backup specific modules (e.g., only backup storage configurations)
+- Data is readable, convenient for checking and editing
+
+#### Flexible Recovery
+
+- Upload backup file to restore
+- Supports overwrite mode and merge mode
+- Automatic data integrity verification before recovery
+
+### Scheduled Tasks (Docker/Node Environment)
+
+Automate daily maintenance work:
+
+- Regularly clean expired shared content
+- Automatically clean uploaded temporary files
+- Regular cache cleaning
+- Supports custom task extensions
+
+::: tip Tip
+Scheduled tasks feature needs to be used in Docker or Node.js environment. For Cloudflare Workers environment, please use Cron Triggers.
+:::
+
+### System Settings
+
+Adjust system behavior through visual interface:
+
+- **Upload Limits**: Limit file size and type
+- **Proxy Signature**: Enable hotlink protection
+- **Preview Settings**: Configure file preview size limits
+- **Site Customization**: Customize site name, announcements, footer
+
+## 🌐 API and Integration
+
+### Complete REST API
+
+All features provide API interfaces:
+
+- Creation, query, update, deletion of text and files
+- File system operations (list, upload, download, rename, etc.)
+- Storage and mount configuration management
+- Suitable for integration into automation tools and third-party applications
+
+### WebDAV Protocol
+
+Standard WebDAV protocol, compatible with mainstream clients:
+
+- Windows Explorer
+- macOS Finder
+- Cyberduck, WinSCP and other third-party tools
+- Mobile file managers
+
+### Open Source and Extension
+
+- **Active Maintenance**: Continuous updates, quick issue fixes
+- **Community Support**: GitHub Issues and discussion areas
+- **Extensible**: Supports secondary development and custom features
 
 ## Next Steps
 
-- [Quick Start](/en/guide/quick-start) - Experience these features immediately
-- [Deployment Guide](/en/guide/deploy-github-actions) - Deploy your own instance
-- [API Documentation](/en/api/) - Learn about API interfaces
-- [Development Guide](/en/development/) - Participate in project development
+Ready to experience these features?
+
+- [Quick Start](/guide/quick-start) - 5-minute quick deployment
+- [Deployment Guide](/guide/deploy-github-actions) - Detailed deployment tutorial
+- [Storage Configuration](/guide/storage-common) - Connect your storage services
+- [API Documentation](/api/) - Integrate into your application

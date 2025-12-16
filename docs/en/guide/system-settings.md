@@ -41,10 +41,13 @@ File extensions to be previewed as audio, separated by commas, e.g., `mp3,wav,m4
 File extensions to be previewed as video, separated by commas, e.g., `mp4,webm,ogg`.
 
 ### Image Types
-File extensions to be previewed as images, separated by commas, e.g., `jpg,jpeg,png,gif,webp`.
+File extensions to be previewed as images, separated by commas, for example: jpg,jpeg,png,gif,webp,heic.
+Supports HEIC format and Live Photos (both an image and video file with the same name must exist in the folder to trigger Live Photos)
 
 ### Office Types
-File extensions to be previewed as Office documents, separated by commas, e.g., `doc,docx,ppt,pptx,xls,xlsx`. Currently converted using online Microsoft and Google services.
+
+File extensions to be previewed as office documents, separated by commas, for example: doc,docx,ppt,pptx,xls,xlsx.
+Currently rendered locally (only supports docx, pptx, xlsx), while others are converted through online Microsoft and Google services.
 
 ### Document Files
 PDF
