@@ -31,29 +31,121 @@ If both the mount point and global settings specify signature durations, the ove
 
 ## Preview Settings
 
-### Text Types
-File extensions to be previewed as text, separated by commas, e.g., `txt,md,go,tsx`.
+### Basic File Types
 
-### Audio Types
-File extensions to be previewed as audio, separated by commas, e.g., `mp3,wav,m4a`.
+Configure which file extensions can be previewed, separated by commas:
 
-### Video Types
-File extensions to be previewed as video, separated by commas, e.g., `mp4,webm,ogg`.
+- **Text Types**: txt, md, go, tsx, log, json, etc.
+- **Image Types**: jpg, jpeg, png, gif, webp, heic, etc. (supports HEIC and Live Photo - folder must contain both image and video files with the same name to trigger Live Photo)
+- **Video Types**: mp4, webm, ogg, mov, etc.
+- **Audio Types**: mp3, wav, m4a, flac, etc.
+- **Office Types**: doc, docx, xls, xlsx, ppt, pptx (supports local rendering of docx/xlsx/pptx; others use Microsoft/Google online services or third-party services)
+- **epub/mobi/azw3/fb2/cbz Types**: Support online preview for these types
+- **Archive Types**: zip, rar, 7z, tar, gz, bz2, xz, tar.gz, tar.bz2, tar.xz, etc.
+- **Other Types**: Including but not limited to obj (3D), xmind, dwg, dxf (CAD), etc. (requires installing third-party services to support rendering, such as KKFileView)
 
-### Image Types
-File extensions to be previewed as images, separated by commas, for example: jpg,jpeg,png,gif,webp,heic.
-Supports HEIC format and Live Photos (both an image and video file with the same name must exist in the folder to trigger Live Photos)
+If you encounter files that cannot be previewed, you can add the extension at the corresponding location; as long as the browser supports it, you can preview it.
 
-### Office Types
+### Preview Rules Editor
 
-File extensions to be previewed as office documents, separated by commas, for example: doc,docx,ppt,pptx,xls,xlsx.
-Currently rendered locally (only supports docx, pptx, xlsx), while others are converted through online Microsoft and Google services.
+> Preview rules control how specific files are previewed and which preview service is used.
 
-### Document Files
-PDF
-Currently uses the browser's native PDF preview.
+**Purpose:**
+- Set specialized preview methods for different files (e.g., README with Markdown preview)
+- Provide multiple preview options for the same file (e.g., Office files can choose Microsoft or Google preview)
+- Control rule matching order through priority
 
-If a file cannot be previewed, add its extension to the corresponding list above. As long as the browser supports it, the file can be previewed.
+**Two Editing Modes:**
+
+1. **Visual Mode** (recommended): Configure rules through a form interface
+   - Drag to adjust rule priority
+   - Expand/collapse rule cards
+   - Add/remove preview services
+
+2. **JSON Mode** (advanced): Edit JSON configuration directly
+
+**Rule Components:**
+- **Priority**: Smaller numbers have higher priority (e.g., 1 has higher priority than 10)
+- **Match Condition**: File extension (e.g., `pdf,docx`) or regular expression (e.g., `/^readme$/i`)
+- **Preview Type**: text, image, video, audio, pdf, office, epub, archive, iframe, download
+- **Preview Service**: native (project native), microsoft (Office Online), google (Google Docs), or custom URL
+
+**Common Scenarios:**
+
+1. **Multiple Preview Services**: Add both Microsoft and Google preview options for Office files; users can switch during preview
+2. **Special File Handling**: Allow README files without extensions to be previewed with Markdown
+3. **Disable Preview**: Certain sensitive files (e.g., .key, .pem) are only allowed to download, not preview
+
+**URL Template Variables:**
+
+The system supports 7 template variables for replacing with actual values in preview service URLs:
+
+| Variable | Encoding | Description | Use Case |
+|----------|----------|-------------|----------|
+| `$name` | No encoding | Original filename | Filename in URL path |
+| `$e_name` | URL encoded | Encoded filename | Filename in query parameters |
+| `$url` | No encoding | Original preview URL | Few services accept raw URL |
+| `$e_url` | URL encoded | Encoded preview URL | Most common, used as query parameter |
+| `$e_download_url` | URL encoded | Encoded download URL | Services that need download link |
+| `$b64e_url` | Base64+URL encoded | Preview URL with Base64 then URL encoding | Services requiring Base64 format |
+| `$b64e_download_url` | Base64+URL encoded | Download URL with Base64 then URL encoding | Services requiring Base64 download link |
+
+**Usage Examples:**
+
+Microsoft Office Online (using URL encoding):
+```
+https://view.officeapps.live.com/op/embed.aspx?src=$e_url
+```
+
+Google Docs Viewer (using URL encoding):
+```
+https://docs.google.com/viewer?url=$e_url&embedded=true
+```
+
+Custom service (requires Base64 encoding):
+```
+https://your-service.com/preview?file=$b64e_url
+```
+
+**KKFileView External Preview Service Tutorial:**
+
+Official deployment tutorial: https://kkview.cn/zh-cn/docs/home.html
+
+HuggingFace deployment (for personal use):
+```dockerfile
+FROM ymlisoft/kkfileview
+
+USER root
+
+RUN apt-get update && apt-get install -y xvfb && rm -rf /var/lib/apt/lists/*
+
+ENV SERVER_PORT=7860
+ENV KKFILEVIEW_SECURITY_TRUST_HOST=default
+
+RUN printf '#!/bin/bash\n\
+echo "=== Environment Variables ==="\n\
+echo "SERVER_PORT: $SERVER_PORT"\n\
+echo "KKFILEVIEW_SECURITY_TRUST_HOST: $KKFILEVIEW_SECURITY_TRUST_HOST"\n\
+echo ""\n\
+echo "Starting Xvfb..."\n\
+Xvfb :99 -screen 0 1024x768x24 &\n\
+export DISPLAY=:99\n\
+sleep 2\n\
+echo "Starting kkFileView on port 7860..."\n\
+/opt/kkFileView/bin/kkFileView --server.port=7860\n' > /start.sh && \
+chmod +x /start.sh
+
+EXPOSE 7860
+
+CMD ["/start.sh"]
+```
+
+After deployment, add a rule in the Preview Settings of the corresponding system settings:
+
+- Rule ID: Fill in as desired
+- Preview Type: `iframe`
+- Match Extension: `Any file type supported by KKFileView (see official documentation for details)`
+- Previewer List: `https://your-domain/onlinePreview?url=$b64e_url`
 
 ## Site Settings
 

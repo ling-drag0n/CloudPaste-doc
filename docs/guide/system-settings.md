@@ -32,31 +32,121 @@ CloudPaste 提供了丰富的系统设置选项，让您可以根据需要自定
 
 ## 预览设置
 
-### 文本类型
-要作为文本预览的文件扩展名，用 , 分隔，例如 txt,md,go,tsx。
+### 基础文件类型
 
-### 音频类型
-要作为音频预览的文件扩展名，以 , 分隔，例如 mp3,wav,m4a。
+配置哪些扩展名的文件可以预览，用逗号分隔：
 
-### 视频类型
-要作为视频预览的文件扩展名，以 , 分隔，例如 mp4,webm,ogg。
+- **文本类型**：txt,md,go,tsx,log,json 等
+- **图片类型**：jpg,jpeg,png,gif,webp,heic 等（支持 HEIC 和 Live Photo 实况图片【文件夹下必须得有同名的图片和视频文件才可触发实况】）
+- **视频类型**：mp4,webm,ogg,mov 等
+- **音频类型**：mp3,wav,m4a,flac 等
+- **Office 类型**：doc,docx,xls,xlsx,ppt,pptx（支持本地渲染 docx/xlsx/pptx，其余通过微软/谷歌在线服务/第三方服务）
+- **epub/mobi/azw3/fb2/cbz 类型**: 支持这些类型在线预览
+- **压缩包类型**：zip,rar,7z,tar,gz,bz2,xz,tar.gz,tar.bz2,tar.xz 等
+- **其他类型**：包括但不限于obj(3D),xmind,dwg, dxf(CAD)等等预览(需要安装第三方服务来支持渲染，如KKFileView)
 
-### 图片类型
-要作为图像预览的文件扩展名，以 , 分隔，例如 jpg,jpeg,png,gif,webp,heic。
-支持HEIC格式 和 Live Photo实况图片(文件夹下必须得有同名的图片和视频文件才可触发实况)
+如遇到文件无法预览，可在对应位置加上扩展名，只要浏览器支持即可预览。
 
-### Office类型
+### 预览规则编辑器
 
-要作为office预览的文件扩展名，以 , 分隔，例如 doc,docx,ppt,pptx,xls,xlsx。
-目前是通过本地渲染(仅支持docx，pptx，xlsx)，其余的通过在线的微软和谷歌的在线服务进行转换。
+> 预览规则用于控制特定文件的预览方式和预览服务。
 
-### 文档文件
+**作用：**
+- 为不同文件设置专门的预览方式（如 README 用 Markdown 预览）
+- 为同一文件提供多个预览选项（如 Office 文件可选微软或谷歌预览）
+- 通过优先级控制规则匹配顺序
 
-pdf
-目前是采用浏览器原生的pdf预览
+**两种编辑模式：**
 
+1. **可视化模式**（推荐）：通过表单界面配置规则
+   - 拖拽调整规则优先级
+   - 展开/折叠规则卡片
+   - 添加/删除预览服务
 
-如遇到文件无法预览可在上述此对应位置加上对应扩展名，只要浏览器支持，那么就可以预览。
+2. **JSON 模式**（高级）：直接编辑 JSON 配置
+
+**规则包含：**
+- **优先级**：数字越小越优先（如 1 比 10 优先）
+- **匹配条件**：扩展名（如 `pdf,docx`）或正则表达式（如 `/^readme$/i`）
+- **预览类型**：text、image、video、audio、pdf、office、epub、archive、iframe、download
+- **预览服务**：native（项目原生）、microsoft（Office Online）、google（谷歌文档）或自定义 URL
+
+**常见场景：**
+
+1. **多预览服务**：为 Office 文件添加微软和谷歌两种预览选项，用户可在预览时切换
+2. **特殊文件处理**：让无扩展名的 README 文件用 Markdown 预览
+3. **禁止预览**：某些敏感文件（如 .key、.pem）只允许下载不预览
+
+**URL 模板变量：**
+
+系统支持 7 个模板变量，用于在预览服务 URL 中替换为实际值：
+
+| 变量 | 编码方式 | 说明 | 使用场景 |
+|------|---------|------|---------|
+| `$name` | 无编码 | 原始文件名 | URL 路径中的文件名 |
+| `$e_name` | URL 编码 | 编码后的文件名 | 查询参数中的文件名 |
+| `$url` | 无编码 | 原始预览 URL | 少数服务接受原始 URL |
+| `$e_url` | URL 编码 | 编码后的预览 URL | 最常用，作为查询参数 |
+| `$e_download_url` | URL 编码 | 编码后的下载 URL | 需要下载链接的服务 |
+| `$b64e_url` | Base64+URL 编码 | Base64 编码后再 URL 编码的预览 URL | 需要 Base64 格式的服务 |
+| `$b64e_download_url` | Base64+URL 编码 | Base64 编码后再 URL 编码的下载 URL | 需要 Base64 格式的下载链接 |
+
+**使用示例：**
+
+微软 Office Online（使用 URL 编码）：
+```
+https://view.officeapps.live.com/op/embed.aspx?src=$e_url
+```
+
+谷歌文档查看器（使用 URL 编码）：
+```
+https://docs.google.com/viewer?url=$e_url&embedded=true
+```
+
+自定义服务（需要 Base64 编码）：
+```
+https://your-service.com/preview?file=$b64e_url
+```
+
+**在此提供外部预览服务KKFileView教程**：
+
+官方部署教程：https://kkview.cn/zh-cn/docs/home.html
+
+HuggingFace 部署(自用即可):
+```dockerfile
+FROM ymlisoft/kkfileview
+
+USER root
+
+RUN apt-get update && apt-get install -y xvfb && rm -rf /var/lib/apt/lists/*
+
+ENV SERVER_PORT=7860
+ENV KKFILEVIEW_SECURITY_TRUST_HOST=default
+
+RUN printf '#!/bin/bash\n\
+echo "=== Environment Variables ==="\n\
+echo "SERVER_PORT: $SERVER_PORT"\n\
+echo "KKFILEVIEW_SECURITY_TRUST_HOST: $KKFILEVIEW_SECURITY_TRUST_HOST"\n\
+echo ""\n\
+echo "Starting Xvfb..."\n\
+Xvfb :99 -screen 0 1024x768x24 &\n\
+export DISPLAY=:99\n\
+sleep 2\n\
+echo "Starting kkFileView on port 7860..."\n\
+/opt/kkFileView/bin/kkFileView --server.port=7860\n' > /start.sh && \
+chmod +x /start.sh
+
+EXPOSE 7860
+
+CMD ["/start.sh"]
+```
+
+部署后在对应系统设置下的预览设置中规则添加：
+
+- 规则ID：随意填写
+- 预览类型：`iframe`
+- 匹配扩展名：`只要KKFileView支持的任意文件类型即可（具体看官方文档）`
+- 预览器列表：`https://你的域名/onlinePreview?url=$b64e_url`
 
 
 ## 站点设置

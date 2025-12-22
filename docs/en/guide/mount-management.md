@@ -24,6 +24,7 @@ A mount point acts as a virtual directory to map a corresponding storage path. F
 - **Signing Duration**: Sets temporary link validity (in seconds). `0` means permanent (no expiration).
 - **Default Link/Proxy**: Specifies the default strategy for generating links under this mount.
 - **Cache TTL**: Duration (in seconds) for directory listing caching. Improves performance for frequently accessed but rarely changed files.
+- **Allow Computing Folder Size/Time**: When enabled, recursively calculates folder sizes and modification times when storage does not provide native data and index is unavailable (performance-intensive). Disabled by default.
 - **Enable/Disable**: When `is_active` is off, the mount becomes invisible to all users. Can be re-enabled anytime.
 - **Sort Order**: Lower `sort_order` values appear first—useful for prioritizing frequently used mounts.
 - **WebDAV Policy**: Default is `302_redirect` (recommended). Keep this unless specific needs arise.
@@ -38,6 +39,7 @@ A mount point acts as a virtual directory to map a corresponding storage path. F
 - **Storage Config**: References an S3/R2/OSS configuration.
 - **Default Proxy**: Prioritizes backend proxy for generated links.
 - **Signing Expiry**: Proxy link validity (seconds). `0` = no expiration.
+- **Allow Computing Folder Size/Time**: When enabled, recursively computes folder sizes and modification times as a fallback when storage native data and index are unavailable. Disabled by default to conserve performance.
 - **Cache TTL**: Duration (seconds) for directory listing caching. Controls refresh frequency.
 - **WebDAV Policy**: Behavior for WebDAV access (e.g., `302_redirect`). Keep default unless necessary.
 - **Enable Status**: Determines mount visibility. Disabling doesn’t delete data.
