@@ -29,7 +29,7 @@ features:
 
   - icon: 📤
     title: 多存储支持
-    details: 兼容多种 S3 存储服务（Cloudflare R2、Backblaze B2、AWS S3 等），支持预签名 URL 直接上传，实时进度显示
+    details: S3 兼容(Cloudflare R2、Backblaze B2、AWS S3、阿里云 OSS)、WebDAV、OneDrive、Google Drive、Telegram、GitHub API/Releases（只读）等等
 
   - icon: 🛠
     title: 便捷的文件操作
