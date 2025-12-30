@@ -8,11 +8,11 @@ OneDrive 存储驱动支持以下能力：
 
 - ✅ **READER**：读取文件和目录
 - ✅ **WRITER**：上传、创建、重命名、删除文件
-- ✅ **ATOMIC**：原子操作支持
+- ✅ **ATOMIC**：原子操作支持（重命名、复制、批量删除）
 - ✅ **PROXY**：代理访问
-- ✅ **SEARCH**：文件搜索
-- ✅ **DIRECT_LINK**：直链下载
+- ✅ **DIRECT_LINK**：直链下载（通过 Microsoft Graph API）
 - ✅ **MULTIPART**：分片上传（断点续传）
+- ✅ **PAGED_LIST**：分页目录列表
 
 ## 1. 准备工作
 

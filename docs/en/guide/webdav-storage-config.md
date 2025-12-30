@@ -7,7 +7,16 @@ Common use cases:
 - You already have a NAS / Nextcloud / Cloudreve that exposes WebDAV and want to reuse it for CloudPaste;
 - You cannot easily use S3, but you do have a stable WebDAV service.
 
-> The WebDAV storage driver **does not provide DirectLink capability**. Access paths go through CloudPaste’s proxy chain or upstream WebDAV.
+## Supported Features
+
+The WebDAV storage driver supports the following capabilities:
+
+- ✅ **READER**: Read files and directories
+- ✅ **WRITER**: Upload, create, rename, delete files
+- ✅ **ATOMIC**: Atomic operation support (rename, copy, batch delete)
+- ✅ **PROXY**: Proxy access
+
+> **Note**: WebDAV storage **does not support DirectLink capability**. Access paths go through CloudPaste's proxy chain or upstream WebDAV. It also does not support MULTIPART (chunked upload) and PAGED_LIST (paginated directory listing).
 
 ## 1. Creating a WebDAV Storage Config
 

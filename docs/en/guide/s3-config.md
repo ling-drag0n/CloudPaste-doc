@@ -2,6 +2,20 @@
 
 CloudPaste supports multiple S3-compatible storage services, providing reliable storage solutions for your files.
 
+## Supported Features
+
+The S3 storage driver supports the following capabilities (all always enabled):
+
+- ✅ **READER**: Read files and directories
+- ✅ **WRITER**: Upload, create, rename, delete files
+- ✅ **DIRECT_LINK**: Direct link download (presigned URLs)
+- ✅ **MULTIPART**: Chunked upload (large files, supports resumable upload)
+- ✅ **ATOMIC**: Atomic operation support (rename, copy, batch delete)
+- ✅ **PROXY**: Proxy access
+- ✅ **PAGED_LIST**: Paginated directory listing
+
+> S3 is the most feature-complete storage driver, supporting all 7 capabilities.
+
 ## Supported Storage Services
 
 ### Partial S3 Storage Service Comparison

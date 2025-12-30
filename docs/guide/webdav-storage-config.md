@@ -7,7 +7,16 @@
 - 已有 NAS / Nextcloud / Cloudreve 等自带 WebDAV 的服务，希望直接复用为 CloudPaste 存储；
 - 不方便开 S3，但已有稳定的 WebDAV 服务。
 
-> WebDAV 存储驱动 **不提供直链（DirectLink）能力**，访问路径会通过 CloudPaste 的代理链路或上游 WebDAV。
+## 支持的功能
+
+WebDAV 存储驱动支持以下能力：
+
+- ✅ **READER**：读取文件和目录
+- ✅ **WRITER**：上传、创建、重命名、删除文件
+- ✅ **ATOMIC**：原子操作支持（重命名、复制、批量删除）
+- ✅ **PROXY**：代理访问
+
+> **注意**：WebDAV 存储 **不支持直链（DIRECT_LINK）能力**，访问路径会通过 CloudPaste 的代理链路或上游 WebDAV。也不支持 MULTIPART（分片上传）和 PAGED_LIST（分页列表）。
 
 
 ## 1. 新建 WebDAV 存储配置

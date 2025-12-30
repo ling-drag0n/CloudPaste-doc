@@ -10,8 +10,8 @@ The Google Drive storage driver supports the following capabilities:
 - ✅ **WRITER**: Upload, create, rename, and delete files
 - ✅ **ATOMIC**: Atomic operation support (batch delete, copy)
 - ✅ **PROXY**: Proxy access
-- ✅ **SEARCH**: File search
 - ✅ **MULTIPART**: Chunked upload (resumable upload)
+- ✅ **PAGED_LIST**: Paginated directory listing
 
 ## 1. Preparation
 

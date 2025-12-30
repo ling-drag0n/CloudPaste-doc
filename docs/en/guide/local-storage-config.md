@@ -8,9 +8,10 @@ The local storage driver supports the following capabilities:
 
 - ✅ **READER**: Read files and directories
 - ✅ **WRITER**: Upload, create, rename, delete files
-- ✅ **ATOMIC**: Atomic operation support
-- ✅ **SEARCH**: File search
+- ✅ **ATOMIC**: Atomic operation support (rename, copy, batch delete)
 - ✅ **PROXY**: Proxy access
+
+> **Note**: Local storage does not support DIRECT_LINK (direct links), MULTIPART (chunked upload), and PAGED_LIST (paginated directory listing) capabilities.
 
 ## 1. Applicable Scenarios
 

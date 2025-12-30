@@ -8,11 +8,11 @@ The OneDrive storage driver supports the following capabilities:
 
 - ✅ **READER**: Read files and directories
 - ✅ **WRITER**: Upload, create, rename, and delete files
-- ✅ **ATOMIC**: Atomic operation support
+- ✅ **ATOMIC**: Atomic operation support (rename, copy, batch delete)
 - ✅ **PROXY**: Proxy access
-- ✅ **SEARCH**: File search
-- ✅ **DIRECT_LINK**: Direct download links
+- ✅ **DIRECT_LINK**: Direct download links (via Microsoft Graph API)
 - ✅ **MULTIPART**: Chunked upload (resumable upload)
+- ✅ **PAGED_LIST**: Paginated directory listing
 
 ## 1. Preparation
 
