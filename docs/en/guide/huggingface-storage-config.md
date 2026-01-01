@@ -338,21 +338,7 @@ The following information is based on HuggingFace official documentation (Decemb
 Above the free tier, private storage is billed at **$25/TB/month** (in 1TB increments).
 
 
-## 8. Comparison with Other Storage Types
-
-| Feature | HuggingFace | S3 | Telegram | GitHub API |
-|---------|-------------|-----|----------|------------|
-| Storage Cost | Public free, Private 100GB free | Pay-as-you-go | Free | Free |
-| Direct Link | ✅ (public repos) | ✅ | ❌ | ✅ |
-| Max File Size | Recommended < 50GB, Hard limit 500GB | Unlimited | Unlimited* | 100MB |
-| Upload Speed | Medium | Fast | Medium | Slow |
-| Private Storage | ✅ (100GB free) | ✅ | ✅ | ✅ |
-| Use Case | Dataset/Model hosting | Production | Personal backup | Config files |
-
-> *Telegram unlimited with self-hosted Bot API mode
-
-
-## 9. References
+## 8. References
 
 - [HuggingFace Hub Documentation](https://huggingface.co/docs/hub)
 - [HuggingFace Storage Limits](https://huggingface.co/docs/hub/storage-limits)

@@ -397,20 +397,7 @@ Telegram 存储内置文件信息缓存：
 | 自建 API | 50-100 MB |
 
 
-## 9. 与其他存储类型对比
-
-| 特性 | Telegram | S3 | WebDAV | GitHub API |
-|------|----------|-----|--------|------------|
-| 存储费用 | 免费 | 按量付费 | 取决于服务 | 免费 |
-| 直链支持 | ❌ | ✅ | ❌ | ✅ |
-| 单文件大小 | 无限制* | 无限制 | 取决于服务 | 100MB |
-| 上传速度 | 中等 | 快 | 取决于服务 | 慢 |
-| 适用场景 | 个人备份 | 生产环境 | 内网存储 | 配置文件 |
-
-> *自建 Bot API 模式下无限制，官方模式需使用分片上传
-
-
-## 10. 参考资源
+## 9. 参考资源
 
 - [Telegram Bot API 文档](https://core.telegram.org/bots/api)
 - [Telegram Bot API Server（自建）](https://github.com/tdlib/telegram-bot-api)

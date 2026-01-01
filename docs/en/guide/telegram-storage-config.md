@@ -396,20 +396,7 @@ Frequently accessed files are automatically cached, reducing API calls.
 | Self-hosted API | 50-100 MB |
 
 
-## 9. Comparison with Other Storage Types
-
-| Feature | Telegram | S3 | WebDAV | GitHub API |
-|---------|----------|-----|--------|------------|
-| Storage cost | Free | Pay per use | Depends on service | Free |
-| Direct link support | ❌ | ✅ | ❌ | ✅ |
-| Single file size | Unlimited* | Unlimited | Depends on service | 100MB |
-| Upload speed | Medium | Fast | Depends on service | Slow |
-| Use case | Personal backup | Production | Intranet storage | Config files |
-
-> *Unlimited in self-hosted Bot API mode; official mode requires multipart upload
-
-
-## 10. Reference Resources
+## 9. Reference Resources
 
 - [Telegram Bot API Documentation](https://core.telegram.org/bots/api)
 - [Telegram Bot API Server (Self-Hosted)](https://github.com/tdlib/telegram-bot-api)

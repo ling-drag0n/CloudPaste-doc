@@ -2,7 +2,64 @@
 
 这一页用来解释存储配置里的 **自定义 HOST/CDN 域名、代理 URL**，以及挂载里的 **Web 代理、签名、WebDAV 策略**，配合 [Cloudpaste-Proxy.js](https://github.com/ling-drag0n/CloudPaste/blob/main/Cloudpaste-Proxy.js) 一起看。
 
-## 1. 自定义 HOST / CDN 域名（custom_host）
+
+## 1. 存储类型对比
+
+CloudPaste 支持多种存储后端，以下是各存储类型的功能对比：
+
+### 1.1 基本信息
+
+| 存储类型 | 费用 | 直链 | 文件大小 | 速度 | 场景 |
+|---------|------|------|---------|------|------|
+| S3 兼容 | 按量付费 | ✅ | 无限制 | 快 | 生产环境 |
+| HuggingFace | 免费/100GB | ✅ | <50GB | 中 | 数据集托管 |
+| GitHub API | 免费 | ✅ | 100MB | 慢 | 配置文件 |
+| GitHub Releases | 免费 | ✅ | 2GB | - | 软件发布 |
+| Telegram | 免费 | ❌ | 无限制* | 中 | 个人备份 |
+| Discord | 免费 | ❌ | 无限制** | 中 | 个人备份 |
+| OneDrive | 5GB 免费 | ✅ | 无限制 | 中 | 个人云盘 |
+| Google Drive | 15GB 免费 | ❌ | 无限制 | 中 | 协作场景 |
+| WebDAV | 取决于服务 | ❌ | 取决于服务 | - | 内网/NAS |
+| 本地存储 | 免费 | ❌ | 取决于磁盘 | 快 | 自托管 |
+| Mirror | 免费 | ✅ | - | 快 | 镜像站 |
+
+> **注释**：
+> - \* Telegram 自建 Bot API 无限制，官方模式单片 20MB
+> - \*\* Discord 分片上传，普通 10MB/片，Nitro 25MB/片
+> - **直链**：是否可生成直接访问 URL，不经 CloudPaste 代理
+
+### 1.2 操作能力
+
+| 存储类型 | 列表 | 新建目录 | 重命名 | 复制 | 删除 | 上传 | 下载 | 分片上传 |
+|---------|------|---------|--------|------|------|------|------|---------|
+| S3 兼容 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| HuggingFace | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| GitHub API | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| GitHub Releases | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| Telegram | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Discord | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| OneDrive | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Google Drive | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| WebDAV | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| 本地存储 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Mirror | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+
+> **说明**：
+> - **列表**：浏览目录和文件列表
+> - **分片上传**：支持大文件断点续传
+
+### 1.3 如何选择
+
+- **生产环境**：S3 兼容（Cloudflare R2、AWS S3、MinIO）
+- **免费备份**：Telegram、Discord、HuggingFace
+- **数据集托管**：HuggingFace
+- **配置文件**：GitHub API
+- **软件发布**：GitHub Releases
+- **内网/NAS**：WebDAV、本地存储
+- **镜像站**：Mirror
+
+
+## 2. 自定义 HOST / CDN 域名（custom_host）
 
 > 管理后台 → 存储配置 → 编辑 →「高级配置」→ **自定义HOST/CDN域名**
 
@@ -22,7 +79,7 @@
 - 可以参考 [B2存储反代](/guide/s3-config#如需要反代-b2-私有存储桶-可在-worker-中配置)
 
 
-## 2. 代理 URL（url_proxy）
+## 3. 代理 URL（url_proxy）
 
 > 管理后台 → 存储配置 → 编辑 →「高级配置」→ **代理 URL**
 
@@ -34,9 +91,9 @@
 ### 填了会有什么变化
 
 - 对应存储的「最终访问入口」会优先走这个域名，而不是走 CloudPaste 后端：
-  - FS 挂载：生成类似  
+  - FS 挂载：生成类似
     `https://proxy.example.com/proxy/fs/<路径>?sign=...`
-  - 分享文件：生成类似  
+  - 分享文件：生成类似
     `https://proxy.example.com/proxy/share/<slug>`
 - WebDAV 在策略为 `use_proxy_url` 时，也会重定向到这个域名。
 
@@ -51,7 +108,7 @@
 - (可选)有自建/Worker 代理 → 填 **代理 URL** (如有反代需求)；
 - 两个都不懂 → 两个先都留空，也完全可以正常使用。
 
-## 3. 挂载里的 Web 代理（web_proxy）
+## 4. 挂载里的 Web 代理（web_proxy）
 
 > 管理后台 → 挂载管理 → 编辑挂载 → **Web 代理**
 
@@ -65,15 +122,15 @@
 
 - 不强制本地代理，按「直链能力 + url_proxy」综合决定：
 
-  - 情况 A：存储**没有**配置「代理 URL（url_proxy）」  
-    - 有直链能力 → 优先返回直链（如 custom_host / 预签名）；  
+  - 情况 A：存储**没有**配置「代理 URL（url_proxy）」
+    - 有直链能力 → 优先返回直链（如 custom_host / 预签名）；
     - 没有直链能力 → 回退到 CloudPaste 本地 `/api/p/...` 代理。
 
-  - 情况 B：存储**配置了**「代理 URL（url_proxy）」  
-    - 浏览器拿到的链接会统一变成 `https://proxy.example.com/proxy/fs/...`；  
+  - 情况 B：存储**配置了**「代理 URL（url_proxy）」
+    - 浏览器拿到的链接会统一变成 `https://proxy.example.com/proxy/fs/...`；
     - 真实用直链还是 `/api/p`，由代理服务在后台通过 `/api/proxy/link` 再去取，你无需关心。
 
-> 简单理解：web_proxy 关着时，如果你设置了「代理 URL」，网页端就优先走这个代理入口；没设置时才是“能直链就直链，直链不行再回退本地代理”。
+> 简单理解：web_proxy 关着时，如果你设置了「代理 URL」，网页端就优先走这个代理入口；没设置时才是"能直链就直链，直链不行再回退本地代理"。
 
 ### 开启时
 
@@ -85,9 +142,9 @@
 
 - 若无需求默认即可：**关闭**。
 
-## 4. 签名访问（全局 + 单挂载 enable_sign）
+## 5. 签名访问（全局 + 单挂载 enable_sign）
 
-> 管理后台 → 挂载管理 → 编辑挂载 → **启用签名 / 签名有效期**  
+> 管理后台 → 挂载管理 → 编辑挂载 → **启用签名 / 签名有效期**
 > 管理后台 → 系统设置 → **代理 / 签名相关全局配置**
 
 ### 它解决什么问题
@@ -114,13 +171,13 @@
   - 建议 **启用签名**，过期时间设置 10 分钟 ~ 1 小时；
   - 既能防止长期泄露，也不会频繁失效。
 
-## 5. WebDAV 策略（webdav_policy）
+## 6. WebDAV 策略（webdav_policy）
 
 > 管理后台 → 挂载管理 → 编辑挂载 → **WebDAV 策略**
 
 WebDAV 下载文件时有三种模式，决定「文件从哪儿取」。
 
-### 5.1 `native_proxy`（默认，推荐）
+### 6.1 `native_proxy`（默认，推荐）
 
 - 所有 WebDAV 读写都走 CloudPaste 自己的代理：
   - 不暴露 S3/CDN 域名；
@@ -129,7 +186,7 @@ WebDAV 下载文件时有三种模式，决定「文件从哪儿取」。
 
 > 小白用户：**保持默认 `native_proxy` 即可。**
 
-### 5.2 `302_redirect`（直链重定向）
+### 6.2 `302_redirect`（直链重定向）
 
 - CloudPaste 尝试让驱动生成一个直链，然后返回 **302 重定向** 到那个地址：
   - 存储支持直链 + 未强制 Web 代理 → 多数情况下跳到 S3/CDN；
@@ -137,7 +194,7 @@ WebDAV 下载文件时有三种模式，决定「文件从哪儿取」。
 - 优点：大文件可以直接由存储/CDN 承载；
 - 注意：部分 WebDAV 客户端对 302 支持不好，需要自己测试。
 
-### 5.3 `use_proxy_url`（走代理 URL / Worker）
+### 6.3 `use_proxy_url`（走代理 URL / Worker）
 
 - WebDAV 也通过 **代理 URL** 来访问文件：
   - CloudPaste 先生成 `https://proxy.example.com/proxy/fs/...`；
@@ -148,7 +205,7 @@ WebDAV 下载文件时有三种模式，决定「文件从哪儿取」。
 - 如果生成失败，系统会自动降级回 `native_proxy`。
 
 
-## 6. Cloudpaste-Proxy.js 简要说明
+## 7. Cloudpaste-Proxy.js 简要说明
 
 >[!warning]
 > ⚠ **建议个人使用，大流量代理可能会受到制裁**
@@ -174,10 +231,10 @@ let SIGN_SECRET = "your-encryption-key";               // 要与 ENCRYPTION_SECR
 let WORKER_BASE = "https://proxy.example.com";         // 这个 Worker 对外地址
 ```
 
-> CloudPaste 负责“算链接 + 控制权限”，Cloudpaste-Proxy.js 负责“在边缘帮你把流量转出去”。
+> CloudPaste 负责"算链接 + 控制权限"，Cloudpaste-Proxy.js 负责"在边缘帮你把流量转出去"。
 
 
-## 7. 推荐搭配示例
+## 8. 推荐搭配示例
 
 > 以下只是参考，不是唯一正确答案。
 

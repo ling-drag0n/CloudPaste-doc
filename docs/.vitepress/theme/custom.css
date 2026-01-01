@@ -181,10 +181,18 @@
  * 表格样式增强
  * ============================================================================ */
 
+/* 表格容器支持横向滚动 */
 .vp-doc table {
-  display: table;
+  display: block;
   width: 100%;
   overflow-x: auto;
+  white-space: nowrap;
+}
+
+.vp-doc table th,
+.vp-doc table td {
+  white-space: nowrap;
+  padding: 8px 12px;
 }
 
 .vp-doc tr {

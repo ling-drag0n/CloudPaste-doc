@@ -2,9 +2,66 @@
 
 This page explains **Custom HOST/CDN domain**, **Proxy URL** in storage config, and **Web Proxy, signing, WebDAV policy** in mount config, together with [Cloudpaste-Proxy.js](https://github.com/ling-drag0n/CloudPaste/blob/main/Cloudpaste-Proxy.js).
 
-## 1. Custom HOST / CDN Domain (custom_host)
 
-> Admin Panel → Storage Config → Edit → “Advanced Settings” → **Custom HOST/CDN Domain**
+## 1. Storage Type Comparison
+
+CloudPaste supports multiple storage backends. Here's a feature comparison:
+
+### 1.1 Basic Info
+
+| Storage | Cost | Direct | File Size | Speed | Use Case |
+|---------|------|--------|-----------|-------|----------|
+| S3 Compatible | Pay-as-you-go | ✅ | Unlimited | Fast | Production |
+| HuggingFace | Free/100GB | ✅ | <50GB | Med | Datasets |
+| GitHub API | Free | ✅ | 100MB | Slow | Config files |
+| GitHub Releases | Free | ✅ | 2GB | - | Releases |
+| Telegram | Free | ❌ | Unlimited* | Med | Backup |
+| Discord | Free | ❌ | Unlimited** | Med | Backup |
+| OneDrive | 5GB free | ✅ | Unlimited | Med | Personal |
+| Google Drive | 15GB free | ❌ | Unlimited | Med | Collab |
+| WebDAV | Varies | ❌ | Varies | - | NAS |
+| Local Storage | Free | ❌ | Disk limit | Fast | Self-hosted |
+| Mirror | Free | ✅ | - | Fast | Mirrors |
+
+> **Notes**:
+> - \* Telegram: Unlimited with self-hosted Bot API, official mode 20MB/chunk
+> - \*\* Discord: Chunked upload, normal 10MB/chunk, Nitro 25MB/chunk
+> - **Direct**: Can generate direct URLs without CloudPaste proxy
+
+### 1.2 Operations
+
+| Storage | List | Mkdir | Rename | Copy | Delete | Upload | Download | Multipart |
+|---------|------|-------|--------|------|--------|--------|----------|-----------|
+| S3 Compatible | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| HuggingFace | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| GitHub API | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| GitHub Releases | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+| Telegram | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Discord | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| OneDrive | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Google Drive | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| WebDAV | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Local Storage | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Mirror | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
+
+> **Legend**:
+> - **List**: Browse directories and files
+> - **Multipart**: Resumable large file uploads
+
+### 1.3 How to Choose
+
+- **Production**: S3 compatible (Cloudflare R2, AWS S3, MinIO)
+- **Free backup**: Telegram, Discord, HuggingFace
+- **Datasets**: HuggingFace
+- **Config files**: GitHub API
+- **Releases**: GitHub Releases
+- **NAS**: WebDAV, Local Storage
+- **Mirrors**: Mirror
+
+
+## 2. Custom HOST / CDN Domain (custom_host)
+
+> Admin Panel → Storage Config → Edit → "Advanced Settings" → **Custom HOST/CDN Domain**
 
 ### What it is
 
@@ -12,7 +69,7 @@ This page explains **Custom HOST/CDN domain**, **Proxy URL** in storage config, 
 
 ### What changes when it is set
 
-- When this storage supports “direct link”, CloudPaste will use this domain for direct links:
+- When this storage supports "direct link", CloudPaste will use this domain for direct links:
   - Empty: `https://s3.xxx.com/bucket/path/file.ext`
   - Set: `https://cdn.example.com/path/file.ext`
 - It only affects **direct access** (public files, embedding in other sites), and **does not change Proxy URL / WebDAV policy**.
@@ -22,10 +79,9 @@ This page explains **Custom HOST/CDN domain**, **Proxy URL** in storage config, 
 - You can refer to [B2 storage + reverse proxy](/en/guide/s3-config#reverse-proxy-for-private-b2-buckets-via-worker) as an example scenario.
 
 
+## 3. Proxy URL (url_proxy)
 
-## 2. Proxy URL (url_proxy)
-
-> Admin Panel → Storage Config → Edit → “Advanced Settings” → **Proxy URL**
+> Admin Panel → Storage Config → Edit → "Advanced Settings" → **Proxy URL**
 
 ### What it is
 
@@ -35,9 +91,9 @@ This page explains **Custom HOST/CDN domain**, **Proxy URL** in storage config, 
 ### What changes when it is set
 
 - For this storage, the **final entry URL** will prefer this domain instead of the CloudPaste backend:
-  - FS mounts: generate URLs like  
+  - FS mounts: generate URLs like
     `https://proxy.example.com/proxy/fs/<path>?sign=...`
-  - Share files: generate URLs like  
+  - Share files: generate URLs like
     `https://proxy.example.com/proxy/share/<slug>`
 - When the WebDAV policy is `use_proxy_url`, WebDAV downloads will also redirect to this domain.
 
@@ -53,30 +109,29 @@ Quick rules:
 - Not sure about both → leave them empty, everything still works fine.
 
 
-
-## 3. Web Proxy on Mount (web_proxy)
+## 4. Web Proxy on Mount (web_proxy)
 
 > Admin Panel → Mount Management → Edit Mount → **Web Proxy**
 
 ### What it is
 
 - Controls how file links are generated for this mount in **web scenarios** (file manager, preview, download):
-  - Whether to force going through CloudPaste’s `/api/p` local proxy;
+  - Whether to force going through CloudPaste's `/api/p` local proxy;
   - Also decides whether the storage-level **Proxy URL (url_proxy)** takes effect for FS external links under this mount.
 
 ### When disabled (default)
 
 - Do not force local proxy, combine **direct-link capability + url_proxy** to decide:
 
-  - Case A: storage **does not** have a Proxy URL (url_proxy)  
-    - Has direct-link capability → prefer direct link (custom_host / presigned URL);  
+  - Case A: storage **does not** have a Proxy URL (url_proxy)
+    - Has direct-link capability → prefer direct link (custom_host / presigned URL);
     - No direct-link capability → fall back to CloudPaste `/api/p/...` local proxy.
 
-  - Case B: storage **has** a Proxy URL (url_proxy)  
-    - The browser will always see URLs like `https://proxy.example.com/proxy/fs/...`;  
+  - Case B: storage **has** a Proxy URL (url_proxy)
+    - The browser will always see URLs like `https://proxy.example.com/proxy/fs/...`;
     - Whether the proxy finally uses a direct link or `/api/p` is handled inside the proxy via `/api/proxy/link`.
 
-> In short: when **web_proxy is OFF** and you configured a Proxy URL, web links prefer the proxy entry; when Proxy URL is empty, it behaves like “direct-link if possible, otherwise fall back to local proxy”.
+> In short: when **web_proxy is OFF** and you configured a Proxy URL, web links prefer the proxy entry; when Proxy URL is empty, it behaves like "direct-link if possible, otherwise fall back to local proxy".
 
 ### When enabled
 
@@ -86,13 +141,12 @@ Quick rules:
 
 ### When to use it
 
-- If you don’t have a special requirement, **keep it disabled**.
+- If you don't have a special requirement, **keep it disabled**.
 
 
+## 5. Signed Access (global + per-mount enable_sign)
 
-## 4. Signed Access (global + per-mount enable_sign)
-
-> Admin Panel → Mount Management → Edit Mount → **Enable Signing / Signature TTL**  
+> Admin Panel → Mount Management → Edit Mount → **Enable Signing / Signature TTL**
 > Admin Panel → System Settings → **Proxy / Signing (global configuration)**
 
 ### What problem it solves
@@ -102,8 +156,8 @@ Quick rules:
 
 ### Three levels
 
-1. **Global “sign all”**: turn on signing for all proxy-capable mounts;
-2. **Per-mount “Enable signing”**: enable signing only for selected mounts, or override global TTL;
+1. **Global "sign all"**: turn on signing for all proxy-capable mounts;
+2. **Per-mount "Enable signing"**: enable signing only for selected mounts, or override global TTL;
 3. **Expiry time**:
    - `0` = never expires (not recommended for public internet);
    - Other values = seconds from generation time, after which the signature is invalid.
@@ -111,7 +165,7 @@ Quick rules:
 ### Relation to secrets
 
 - `ENCRYPTION_SECRET` in backend `.env` is the signing key;
-- `SIGN_SECRET` in Cloudpaste-Proxy.js must match it, so the edge proxy can validate `sign`  
+- `SIGN_SECRET` in Cloudpaste-Proxy.js must match it, so the edge proxy can validate `sign`
   (it does **not** affect the share page itself, only the proxy chain).
 
 ### Recommendation
@@ -121,23 +175,22 @@ Quick rules:
   - This protects against long-term leakage without expiring too frequently for normal users.
 
 
-
-## 5. WebDAV Policy (webdav_policy)
+## 6. WebDAV Policy (webdav_policy)
 
 > Admin Panel → Mount Management → Edit Mount → **WebDAV Policy**
 
 WebDAV downloads support three modes, deciding **where the file is actually fetched from**.
 
-### 5.1 `native_proxy` (default, recommended)
+### 6.1 `native_proxy` (default, recommended)
 
-- All WebDAV read/write goes through CloudPaste’s own proxy:
+- All WebDAV read/write goes through CloudPaste's own proxy:
   - Does not expose S3/CDN domains;
   - Usually works best with various WebDAV clients.
 - Cost: traffic is counted on the CloudPaste side.
 
 > For most users: **keep `native_proxy` as default**.
 
-### 5.2 `302_redirect` (direct-link redirect)
+### 6.2 `302_redirect` (direct-link redirect)
 
 - CloudPaste tries to ask the driver for a direct link, then returns **HTTP 302** to that URL:
   - If storage supports direct link and Web Proxy is not forced → usually redirects to S3/CDN;
@@ -145,10 +198,10 @@ WebDAV downloads support three modes, deciding **where the file is actually fetc
 - Pros: large files can be offloaded to storage/CDN directly;
 - Note: some WebDAV clients do not handle 302 well, test with your client.
 
-### 5.3 `use_proxy_url` (via Proxy URL / Worker)
+### 6.3 `use_proxy_url` (via Proxy URL / Worker)
 
 - WebDAV also uses the **Proxy URL** to access files:
-  - CloudPaste first generates `https://proxy.example.com/proxy/fs/...`;  
+  - CloudPaste first generates `https://proxy.example.com/proxy/fs/...`;
   - Then responds to the client with HTTP 302 to this URL.
 - Requirements:
   - The storage config has a **Proxy URL** set;
@@ -156,8 +209,7 @@ WebDAV downloads support three modes, deciding **where the file is actually fetc
 - If URL generation fails, WebDAV will automatically fall back to `native_proxy`.
 
 
-
-## 6. Cloudpaste-Proxy.js in a Nutshell
+## 7. Cloudpaste-Proxy.js in a Nutshell
 
 >[!warning]
 > ⚠ **Recommended for personal use, high-volume proxy may be subject to sanctions**
@@ -183,11 +235,10 @@ let SIGN_SECRET = "your-encryption-key";               // Must match ENCRYPTION_
 let WORKER_BASE = "https://proxy.example.com";         // Public URL of this Worker
 ```
 
-> **CloudPaste** decides “how to access”, **Cloudpaste-Proxy.js** helps “where to access from” (edge).
+> **CloudPaste** decides "how to access", **Cloudpaste-Proxy.js** helps "where to access from" (edge).
 
 
-
-## 7. Recommended Combinations
+## 8. Recommended Combinations
 
 > These are examples, not the only valid options.
 
@@ -222,5 +273,4 @@ let WORKER_BASE = "https://proxy.example.com";         // Public URL of this Wor
   - Signing: on, signature TTL 600–3600 seconds;
   - If you also want WebDAV to go via proxy, set WebDAV policy to `use_proxy_url`.
 
-> If you’re not sure what to choose, start with **Scenario 1**, get the system running, then gradually introduce Proxy URL and signing as needed.
-
+> If you're not sure what to choose, start with **Scenario 1**, get the system running, then gradually introduce Proxy URL and signing as needed.
